@@ -1,0 +1,12 @@
+{% extends 'layouts/modals/update.html' %}
+{% load crispy_forms_tags %}
+{% block label %}
+Update Data Suspek
+{% endblock %}
+{% block action %}
+{% url 'diagnosis:pelacakan_gejala:update_pelacakan_gejala' i.id %}
+{% endblock %}
+{% block form %}
+{{ form|crispy }}
+{% endblock %}
+

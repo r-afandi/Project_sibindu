@@ -1,0 +1,14 @@
+
+{% extends 'layouts/modals/add.html' %}
+{% load crispy_forms_tags %}
+{% block label %}
+Tambah Data Suspek
+{% endblock %}
+{% block action %}
+{% url 'data_suspek:add_suspek' %}
+{% endblock %}
+{% block form %}
+{{ form|crispy }}
+{% endblock %}
+
+

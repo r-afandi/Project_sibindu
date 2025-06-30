@@ -1,0 +1,13 @@
+{% extends 'layouts/modals/update.html' %}
+{% load crispy_forms_tags %}
+{% block label %}
+Update Antropometri
+{% endblock %}
+{% block action %}
+{% if i.id %}
+{% url 'diagnosis:pengecekan_luar:update_pengecekan_luar' i.id %}
+{% endif %}
+{% endblock %}
+{% block form %}
+{{ form|crispy }}
+{% endblock %}

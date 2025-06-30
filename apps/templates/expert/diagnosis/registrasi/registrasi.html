@@ -1,0 +1,59 @@
+{% extends 'layouts/table_diagnosa.html' %}
+
+<!--Title-->
+
+{% block tableTitle %}
+Data Registrasi
+{% endblock%}
+{% block itemCRUD %}
+<!-- Add data_suspek Modal -->
+
+<a class="btn btn-info" data-toggle="modal" data-target="#addModal" onclick="openAddModal('{{ user.id }}')">
+    <i class="fas fa-fw fa-plus"></i>
+    <span>Tambah Data</span>
+</a>
+
+
+{% include 'expert/diagnosis/registrasi/add_registrasi.html' %}
+
+{% endblock%}
+{% block itemTitle %}
+<th>No</th>
+<th>NIK</th>
+<th>Nama</th>
+<th>Umur</th>
+<th>Jenis Kelamin</th>
+<th>Alamat</th>
+<th>Opsi</th>
+{% endblock%}
+
+{% block itemData %}
+<td>{{ forloop.counter }}</td>
+<td>{{i.nik}}</td>
+<td>{{i.nama}}</td>
+<td>{{i.umur}}</td>
+<td>{{i.gender}}</td>
+<td>{{i.alamat}}</td>
+<!-- Edit data_suspek Modal -->
+{% include 'expert/diagnosis/registrasi/edit_registrasi.html' %}
+<!-- Delete data_suspek Modal -->
+{% include 'expert/diagnosis/registrasi/delete_registrasi.html' %}
+<!-- Button trigger modal -->
+
+{% endblock%}
+{% block update %}
+<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#updateModal{{i.id}}"
+    onclick="openEditModal('{{ i.id }}','{{i.nik}}','{{i.nama}}','{{i.umur}}','{{i.gender_id}}','{{i.alamat}}','{{i.tanggal}}','{{i.data_khusus}}','{{i.data_gejala}}','{{i.data_luar}}','{{i.data_dalam}}',)">
+    <i class="fas fa-pencil-alt"></i>
+</button>
+{% endblock%}
+
+{% block delete %}
+<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal{{i.id}}">
+    <i class="fas fa-trash-alt"></i>
+</button>
+{% endblock%}
+
+{% block JS %}
+{% include 'expert/diagnosis/registrasi/js_registrasi.html' %}
+{% endblock%}

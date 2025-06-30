@@ -1,0 +1,13 @@
+
+{% extends 'layouts/modals/update.html' %}
+{% load crispy_forms_tags %}
+{% block label %}
+Update Pengumuman
+{% endblock %}
+{% block action %}
+{% url 'pengumuman:update_pengumuman' i.id %}
+{% endblock %}
+{% block form %}
+{{form | crispy }}
+{% endblock %}
+

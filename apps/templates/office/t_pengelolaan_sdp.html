@@ -1,0 +1,43 @@
+{% load static %}
+{% block content %}
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Laporan Pengelolaan Aset</h3>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        <!-- Button trigger modal -->
+
+        <table id="t_pengelolaan_sdp" class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Nama</th>
+                <th>Satuan</th>
+                <th>Jumlah Masuk</th>
+                <th>Jumlah Keluar</th>
+                <th>Total</th>
+            </tr>
+            </thead>
+
+            <tbody>
+              {% for i in pengelolaan_sdp %}
+
+              <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{i.nama}}</td>
+                <td>{{i.satuan}}</td>
+                <td>{{ i.total_masuk|default:"0" }}</td>
+                <td>{{ i.total_keluar|default:"0" }}</td>
+                <td>{{ i.total|default:"0" }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <!-- /.card-body -->
+</div>
+<!--Modals-->
+
+{% endblock%}

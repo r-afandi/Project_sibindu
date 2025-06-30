@@ -1,0 +1,10 @@
+
+{% extends 'layouts/modals/delete.html' %}
+{% block label %}
+Delete diagnosa
+{% endblock %}
+{% block action %}
+{% url 'diagnosa:delete_diagnosa' i.id %}
+{% endblock %}
+
+

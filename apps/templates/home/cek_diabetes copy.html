@@ -1,0 +1,85 @@
+{% extends 'layouts/base_general.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+
+<div class="col-12 col-12 d-flex justify-content-center">
+  <div class="col-md-6">
+    <div class="card card-default">
+      <div class="card-body p-0">
+        <div class="bs-stepper">
+          <div class="bs-stepper-header" role="tablist">
+
+            <div class="step" data-target="#open-part">
+              <button type="button" class="step-trigger" role="tab" aria-controls="open-part" id="open-part-trigger">
+              </button>
+            </div>
+            {% for item in gejala %}
+            <div class="step" data-target="#{{item.alias}}-part">
+              <button type="button" class="step-trigger" role="tab" aria-controls="{{item.alias}}-part"
+                id="{{item.alias}}-part-trigger">
+                {{ forloop.counter }}
+              </button>
+            </div>
+            {% endfor %}
+            <div class="step" data-target="#hasil-part">
+              <button type="button" class="step-trigger" role="tab" aria-controls="hasil-part" id="hasil-part-trigger">
+              </button>
+            </div>
+
+          </div>
+          <div class="bs-stepper-content">
+            <div id="open-part" class="content" role="tabpanel" aria-labelledby="open-part-trigger">
+              <div class="form-group">
+                <h2>Diabetes Test</h2>
+                <h4>Klik Mulai jika ingin melanjutkan</h4>
+              </div>
+              <div class="card-footer d-flex justify-content-end">
+                <button class="btn btn-primary" onclick="stepper.next()">Mulai</button>
+              </div>
+            </div>
+            <form method="post" action="{% url 'sibindu:cek_diabetes' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% for item in gejala %}
+           
+            <div id="{{item.alias}}-part" class="content" role="tabpanel" aria-labelledby="{{item.alias}}-part-trigger">
+              
+                
+                {% for i in form %}
+                {% if i.label in item.pernyataan %}
+                {{i.label}}?
+                {{i}}
+                {% endif %}
+                {% endfor %}
+
+
+                <button type="button" class="btn btn-primary mr-2" onclick="stepper.previous()">Previous</button>
+                {% if gejala.last == item %}
+                <button type="submit" class="btn btn-primary mr-2">Cek Hasil</button>
+                {% else %}
+                <button type="button" class="btn btn-primary mr-2" onclick="stepper.next()">Next</button>
+                {% endif %}
+
+              
+            </div>
+
+            {% endfor %}
+          </form>
+            <div class="bs-stepper-content">
+              <div id="hasil-part" class="content" role="tabpanel" aria-labelledby="hasil-part-trigger">
+
+                <h3>Diagnosa: {{ diagnosis }}</h3>
+                <h3>Penanganan: {{ penanganan }}</h3>
+                <button type="button" class="btn btn-primary mr-2" onclick="stepper.previous()">Previous</button>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

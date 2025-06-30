@@ -1,0 +1,13 @@
+<!-- Modal -->
+{% extends 'layouts/modals/add_for_py.html' %}
+{% load crispy_forms_tags %}
+{% block label %}
+Registrasi
+{% endblock %}
+{% block action %}
+{% url 'diagnosis:registrasi:add_registrasi' %}
+{% endblock %}
+{% block form %}
+{% crispy form %}
+
+{% endblock %}

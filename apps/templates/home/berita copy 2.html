@@ -1,0 +1,78 @@
+{% extends 'layouts/base_home.html' %}
+{% load static %}
+{% block title %}Sibindu{% endblock %}
+{% block content %}
+<!-- Top News Start-->
+<div class="top-news">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 tn-left">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="tn-img">
+              <img src="{% static 'home/img/news-350x223-1.jpg' %}" />
+              <div class="tn-title">
+                <a href="">Lorem ipsum dolor sit amet</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 tn-right">
+        <div class="row">
+          <div class="sn-content">
+            <h1 class="sn-title">Lorem ipsum dolor sit amet</h1>
+            <p style="color: #c5c5c5;"><i class="fas fa-user" 1></i> Rafandi</p>
+            <p style="color: #c5c5c5;"><i class="fas fa-calendar"></i> 04-Juni-1999</p>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer molestie, lorem eu eleifend bibendum, ...
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Top News End-->
+
+<!-- Main News Start-->
+<div class="main-news" data-news-items='[
+{"img": "{% static "home/img/news-350x223-1.jpg" %}",  "date": "04-Juni-1999","title": "Lorem ipsum dolor sit"},
+{"img": "{% static "home/img/news-350x223-2.jpg" %}",  "date": "04-Juni-1999","title": "Lorem ipsum dolor sit"},
+{"img": "{% static "home/img/news-350x223-3.jpg" %}",  "date": "04-Juni-1999","title": "Lorem ipsum dolor sit"},
+{"img": "{% static "home/img/news-350x223-4.jpg" %}",  "date": "04-Juni-1999","title": "Lorem ipsum dolor sit"},
+{"img": "{% static "home/img/news-350x223-5.jpg" %}",  "date": "04-Juni-1999","title": "Lorem ipsum dolor sit"},
+{"img": "{% static "home/img/news-350x223-1.jpg" %}",  "date": "04-Juni-1999","title": "Lorem ipsum dolor sit"},
+{"img": "{% static "home/img/news-350x223-2.jpg" %}",  "date": "04-Juni-1999","title": "Lorem ipsum dolor sit"},
+{"img": "{% static "home/img/news-350x223-3.jpg" %}",  "date": "04-Juni-1999","title": "Lorem ipsum dolor sit"},
+{"img": "{% static "home/img/news-350x223-4.jpg" %}",  "date": "04-Juni-1999","title": "Lorem ipsum dolor sit"},
+{"img": "{% static "home/img/news-350x223-1.jpg" %}",  "date": "04-Juni-1999","title": "Lorem ipsum dolor sit"},
+{"img": "{% static "home/img/news-350x223-2.jpg" %}",  "date": "04-Juni-1999","title": "Lorem ipsum dolor sit"},
+{"img": "{% static "home/img/news-350x223-3.jpg" %}",  "date": "04-Juni-1999","title": "Lorem ipsum dolor sit"},
+{"img": "{% static "home/img/news-350x223-4.jpg" %}",  "date": "04-Juni-1999","title": "Lorem ipsum dolor sit"},
+{"img": "{% static "home/img/news-350x223-5.jpg" %}",  "date": "04-Juni-1999","title": "Lorem ipsum dolor sit"},
+{"img": "{% static "home/img/news-350x223-1.jpg" %}",  "date": "04-Juni-1999","title": "Lorem ipsum dolor sit"},
+{"img": "{% static "home/img/news-350x223-2.jpg" %}",  "date": "04-Juni-1999","title": "Lorem ipsum dolor sit"},
+{"img": "{% static "home/img/news-350x223-3.jpg" %}",  "date": "04-Juni-1999","title": "Lorem ipsum dolor sit"},
+{"img": "{% static "home/img/news-350x223-4.jpg" %}",  "date": "04-Juni-1999","title": "Lorem ipsum dolor sit"}
+]'>
+<div class="container">
+    <div class="row">
+        <h2>News</h2>
+        <div class="col-lg-12">
+            <div class="row news-items">
+                <!-- News items will be injected here by JavaScript -->
+            </div>
+            <div class="pagination">
+                <a href="#" class="prev">Previous</a>
+                <!-- Pagination items will be injected here by JavaScript -->
+                <a href="#" class="next">Next</a>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<!-- Top News End-->
+
+<!-- Main News End-->
+{% endblock%}

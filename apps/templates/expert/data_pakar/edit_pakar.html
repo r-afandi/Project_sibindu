@@ -1,0 +1,13 @@
+{% extends 'layouts/modals/update.html' %}
+{% load crispy_forms_tags %}
+{% block label %}
+Update pakar
+{% endblock %}
+{% block action %}
+{% url 'data_pakar:update_pakar' i.id %}
+{% endblock %}
+{% block form %}
+{{form | crispy}}
+{% endblock %}
+
+

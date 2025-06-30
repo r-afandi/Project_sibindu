@@ -1,0 +1,47 @@
+{% extends 'layouts/table.html' %}
+{% load static %}
+<!--Title-->
+{% block tableTitle %} Sumber Daya Posbindu {% endblock%}
+{% block itemCRUD %}
+<!-- Add artikel Modal -->
+    <a class="btn btn-info"  data-toggle="modal" data-target="#addModal" onclick="openAddModal('{{ user.id }}')">
+        <i class="fas fa-fw fa-plus"></i>
+        <span>Tambah Data</span>
+    </a>
+
+{% include 'office/laporan/data_sdp/add_sdp.html' %}
+{% include 'office/laporan/data_sdp/js_sdp.html' %}
+{% endblock%}
+{% block itemTitle %}
+<th>No</th>
+<th>Nama</th>
+<th>Satuan</th>
+<th>Informasi</th>
+<th>Tanggal Dibuat</th>
+<th>Tanggal Diubah</th>
+<th>Opsi</th>
+{% endblock%}
+{% block itemData %}
+<td>{{ forloop.counter }}</td>
+<td>{{i.nama}}</td>
+<td>{{i.satuan}}</td>
+<td>{{i.info}}</td>
+<td>{{i.created_at}}</td>
+<td>{{i.updated_at}}</td>
+<!-- Edit sdp Modal -->
+{% include 'office/laporan/data_sdp/edit_sdp.html' %}
+<!-- Delete sdp Modal -->
+{% include 'office/laporan/data_sdp/delete_sdp.html' %}
+{% endblock%}
+{% block update %}
+  <button type="button" class="btn btn-warning"data-toggle="modal" data-target="#updateModal{{i.id}}" onclick="openEditModal('{{i.id}}','{{i.nama}}','{{i.kode}}','{{i.satuan}}','{{i.info}}')">
+      <i class="fas fa-pencil-alt"></i>
+  </button>
+{% endblock%}
+
+{% block delete %}
+<button type="button" class="btn btn-danger " data-toggle="modal" data-target="#deleteModal{{i.id}}">
+    <i class="fas fa-trash-alt"></i>
+</button>
+{% endblock%}
+

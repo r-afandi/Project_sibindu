@@ -1,0 +1,13 @@
+
+{% extends 'layouts/modals/update.html' %}
+{% load crispy_forms_tags %}
+{% block label %}
+Update User
+{% endblock %}
+{% block action %}
+{% url 'user:update_user' i.id %}
+{% endblock %}
+{% block form %}
+{{form | crispy }}
+{% endblock %}
+

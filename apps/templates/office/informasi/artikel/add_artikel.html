@@ -1,0 +1,49 @@
+
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% load crispy_forms_tags %}
+{% block content %}
+  <div class="col-12">
+    <h5 class="modal-title" >Tambah Artikel</h5>
+    <form  method="post"  action="{% url 'artikel:add_artikel' %}">
+        {% csrf_token %}
+        <div class="modal-body">
+          <div class="form-group">
+            {{form|crispy}}
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" > <a href="{% url 'artikel:artikel' %}" style="color: white;">Kembali</a></button>
+          <button type="submit" class="btn btn-primary">Simpan</button>
+        </div>
+      </form>
+</div>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+      // Contoh: mengisi input dengan id 'id_petugas'
+      var petugasInput = document.getElementById('id_petugas');
+
+      if (petugasInput) {
+          petugasInput.value = "{{user.id}}";
+      }
+      new tempusDominus.TempusDominus(
+        document.querySelector('#id_tanggal'),
+        {
+            localization: {
+                locale: 'id-ID',
+                format: 'dd/MM/yyyy HH:mm',
+            },
+            display: {
+                components: {
+                    hours: true,
+                    minutes: true,
+                    seconds: false,
+                },
+            },
+        }
+    );
+  });
+</script>
+  {% endblock %}
+  

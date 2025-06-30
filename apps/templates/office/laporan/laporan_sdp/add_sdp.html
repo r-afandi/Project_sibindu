@@ -1,0 +1,13 @@
+
+{% extends 'layouts/modals_obj/add.html' %}
+{% load crispy_forms_tags %}
+{% block label %}
+Tambah Aset
+{% endblock %}
+{% block action %}
+{% url 'sdp:add_sdp' %}
+{% endblock %}
+{% block form %}
+{{ form|crispy }}
+{% endblock %}
+

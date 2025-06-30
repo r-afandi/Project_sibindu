@@ -1,0 +1,73 @@
+<script>
+  //add 
+  function openAddModal(id) {
+    // Menambahkan console log
+    console.log("Data yang akan diatur pada form:");
+    console.log("Petugas:", id);
+    // Set the form field values based on the data provided
+    var modalId = "#addModal"; // Membuat ID modal sesuai dengan ID yang sesuai
+    $(modalId).find("#id_petugas").val(id);
+  }
+
+  //Update
+  function openEditModal(id, judul, tanggal,waktu,tempat,jenis, pengumuman,petugasId) {
+
+    var modalId = "#updateModal" + id;
+    $(modalId).find("#id_judul").val(judul);
+    $(modalId).find("#id_tanggal").val(tanggal);
+    $(modalId).find("#id_waktu").val(waktu);
+    $(modalId).find("#id_tempat").val(tempat);
+    $(modalId).find("#id_pengumuman").val(pengumuman);
+    $(modalId).find("#id_jenis").val(jenis);
+    if (petugasId == '{{user.id}}'){
+        $(modalId).find("#id_petugas").val('{{user.id}}');
+    } 
+    else{
+        $(modalId).find("#id_petugas").val(petugasId);
+    }
+
+        // Your Tempus Dominus initialization code here
+        new tempusDominus.TempusDominus(
+    document.querySelector('#updateModal' + id + ' #id_tanggal'), {
+        localization: {
+            locale: 'id-ID',
+            format: 'dd/MM/yyyy'
+        },
+        display: {
+            components: {
+                useTwentyfourHour: false,
+                calendar: true,
+                date: true,
+                month: true,
+                year: true,
+                hours: false, // Nonaktifkan input jam
+                minutes: false, // Nonaktifkan input menit
+                seconds: false  // Nonaktifkan input detik
+            }
+        }
+    }
+);
+new tempusDominus.TempusDominus(
+    document.querySelector('#updateModal' + id + ' #id_waktu'), {
+        localization: {
+            locale: 'id-ID',
+            format: 'HH:mm' // Format ini hanya akan menampilkan picker waktu
+        },
+        display: {
+            components: {
+                useTwentyfourHour: true, // Menggunakan format 24 jam
+                calendar: false, // Nonaktifkan komponen tanggal
+                date: false, // Nonaktifkan komponen tanggal
+                month: false, // Nonaktifkan komponen bulan
+                year: false, // Nonaktifkan komponen tahun
+                hours: true, // Aktifkan input jam
+                minutes: true, // Aktifkan input menit
+                seconds: false // Nonaktifkan input detik
+            }
+        }
+    }
+);
+
+
+  }
+</script>

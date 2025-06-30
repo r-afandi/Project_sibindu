@@ -1,0 +1,46 @@
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  // Initialize Select2 for your form fields once the DOM is ready
+    function initializeSelect2ForAdd() {
+    const addGroupsElement = document.querySelector('#addModal #id_groups');
+    $(addGroupsElement).select2({
+      theme: 'bootstrap4'
+    });
+  }
+
+    // Update Modal
+    function initializeSelect2ForEdit(modalId) {
+      const updateGroupsElement = document.querySelector(modalId+' #id_groups');
+      $(updateGroupsElement).select2({
+        theme: 'bootstrap4'
+      });
+    }
+
+    // Rest of your script
+
+    // Function to open add modal
+    function openAddModal(id) {
+      console.log("Data yang akan diatur pada form:");
+      console.log("Petugas:", id);
+      var modalId = "#addModal";
+      $(modalId).find("#id_petugas").val(id);
+      initializeSelect2ForAdd();
+    }
+
+    // Function to open edit modal
+    function openEditModal(id, first_name, last_name, email, username, password, aktor, is_active) {
+      console.log("Data yang akan diatur pada form:");
+      console.log("aktor:", aktor);
+      var modalId = "#updateModal" + id;
+      $(modalId).find("#id_first_name").val(first_name);
+      $(modalId).find("#id_last_name").val(last_name);
+      $(modalId).find("#id_email").val(email);
+      $(modalId).find("#id_username").val(username);
+      $(modalId).find("#id_password").val(password);
+      $(modalId).find("#id_groups").val(aktor);
+      $(modalId).find("#id_is_active").val(is_active);
+
+      // Initialize Select2 for the update modal
+      initializeSelect2ForEdit(modalId);
+    }
+</script>

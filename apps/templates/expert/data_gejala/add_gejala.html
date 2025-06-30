@@ -1,0 +1,11 @@
+{% extends 'layouts/modals/add.html' %}
+{% load crispy_forms_tags %}
+{% block label %}
+Tambah Gejala
+{% endblock %}
+{% block action %}
+{% url 'diagnosa:gejala' %}
+{% endblock %}
+{% block form %}
+{{ form|crispy}}
+{% endblock %}

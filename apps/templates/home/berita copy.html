@@ -1,0 +1,106 @@
+{% extends 'layouts/base_general.html' %}
+{% load static %}
+{% block content %}
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="card-title m-0">Berita</h5>
+      </div>
+      <div class="row wrapper">
+        <div class="col-sm-2">
+          <div class="form-group">
+            <div class="input-group input-group-md">
+              <input type="search" class="form-control form-control-md" placeholder="Cari" value="">
+              <div class="input-group-append">
+                <button type="submit" class="btn btn-md btn-default">
+                  <i class="fa fa-search"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-2">
+          <div class="input-group input-group-md">
+            <select name="" id="" class="form-control form-control-md">
+              <option value="">Tahun</option>
+              <option value="1965">1965</option>
+              <option value="1965">1965</option>
+              <option value="1965">1965</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-sm-2">
+          <div class="input-group input-group-md">
+            <div type="button">
+              <a class="btn btn-info">
+                <span>Cari</span>
+              </a>
+              <a href="#">Reset</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="row wrapper">
+          {% with artikel|first as first_item %}
+          <div class="col-sm-6">
+            <img src="/posbindu/informasi/artikel{{ first_item.img.url }}" width="700" height="240" style="display:block; margin:auto;">
+          </div>
+          <div class="col-sm-6">
+            <h3><strong>{{ first_item.judul }}</strong></h3>
+            {{ first_item.artikel|safe}}
+            <p style="color: grey;"><i class="fa fa-clock"></i> {{first_item.tanggal}}</p>
+          </div>
+          {% endwith %}
+        </div>        
+        <!-- /.col-md-6 -->
+      </div>
+      <!-- /.row -->
+      <div class="card-body">
+        <div class="row wrapper">
+          {% for list in page_obj %}  
+          <div class="col-sm-4">
+            <img src="/posbindu/informasi/artikel{{ list.img.url }}" width="600" height="172" style="display:block; margin:auto;">
+            <h3><strong>{{list.judul}}</strong></h3>
+
+            {{list.artikel|safe}}
+            <p style="color: grey;"><i class="fa fa-clock"></i> {{list.tanggal}}</p>
+          </div>
+          {% endfor%}
+        </div>
+        <div class="row">
+          <div class="col-lg-10">
+            <div class="dataTables_info" id="example2_info" role="status" aria-live="polite">Showing {{ page_obj.number }}
+              to {{ page_obj.paginator.num_pages }} of
+              {{ page_obj.paginator.num_pages }} entries.</div>
+          </div>
+          <div class="col-lg-2">
+            <div class="dataTables_paginate paging_simple_numbers pagination-sm" id="example2_paginate">
+              <ul class="pagination">
+                {% if page_obj.has_previous %}
+                <li class="paginate_button page-item previous" id="example2_previous"><a
+                    href="?page={{ page_obj.previous_page_number }}" aria-controls="example2" data-dt-idx="{{page_num }}"
+                    tabindex="0" class="page-link">Previous</a></li>
+                {% endif %}
+                {% for page_num in page_obj.paginator.page_range %}
+                  <li class="paginate_button page-item {% if page_num == page_obj.number %}active{% endif %}"><a
+                      href="?page={{ page_num }}" aria-controls="example2" data-dt-idx=" {{page_num }}" tabindex="0"
+                      class="page-link">
+                      {{page_num }}</a></li>
+                {% endfor %}
+                {% if page_obj.has_next %}
+                <li class="paginate_button page-item next" id="example2_next"><a
+                    href="?page={{ page_obj.next_page_number }}" aria-controls="example2" data-dt-idx="{{page_num }}"
+                    tabindex="0" class="page-link">Next</a></li>
+                {% endif %}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div><!-- /.container-fluid -->
+  </div>
+</div>
+<!-- /.content -->
+{% endblock%}

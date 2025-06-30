@@ -1,0 +1,57 @@
+{% load static %}
+{% block content %}
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Data Pengunjung</h3>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        <!-- Button trigger modal -->
+
+        <table id="t_suspek" class="table table-bordered table-striped">
+            <thead>
+                <tr style="text-align: center; vertical-align: middle;">
+                    <th rowspan="2">Tanggal</th>
+                    <th colspan="3">Total</th>
+                    <th colspan="6">Jenis Kelamin</th>
+                </tr>
+                <tr>
+                    <th>Diabetes</th>
+                    <th>Prediabetes</th>
+                    <th>Normal</th>
+                    {% for g in gender %}
+                    <th>Diabetes ({{ g.nama }})</th>
+                    <th>Prediabetes ({{ g.nama }})</th>
+                    <th>Normal ({{ g.nama }})</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for date, results in all_results.items %}
+                <tr>
+                    <td>{{ date }}</td>
+                    <td>{{ results.total.Diabetes }}</td>
+                    <td>{{ results.total.Prediabetes }}</td>
+                    <td>{{ results.total.Normal }}</td>
+                    <td>{{ results.gender.Diabetes.1 }}</td>
+                    <td>{{ results.gender.Prediabetes.1 }}</td>
+                    <td>{{ results.gender.Normal.1 }}</td>
+                    <td>{{ results.gender.Diabetes.2 }}</td>
+                    <td>{{ results.gender.Prediabetes.2 }}</td>
+                    <td>{{ results.gender.Normal.2 }}</td>
+
+
+                </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+    <!-- /.card-body -->
+</div>
+<!--Modals-->
+
+{% endblock%}

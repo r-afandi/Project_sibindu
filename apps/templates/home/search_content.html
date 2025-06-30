@@ -1,0 +1,158 @@
+{% extends 'layouts/base_home.html' %}
+{% load static %}
+{% block title %}Sibindu{% endblock %}
+{% block content %}
+{% if artikel_page_obj %}
+<!-- Main News Start-->
+<div class="main-news">
+    <div class="container">
+        <div class="row">
+            <h2>Artikel</h2>
+            <div class="col-12">
+                <div class="row news-items">
+                    {% for item in artikel_page_obj %}
+                    <div class="col-md-4">
+                        <div class="mn-img">
+                            <img src="/data/{{ item.gambar }}" alt="{{ item.judul }}" />
+                            <div class="mn-dateTime">
+                                <p>{{ item.tanggal }}</p>
+                            </div>
+                            <div class="mn-title">
+                                <a href="/artikel_satuan/{{ item.id }}">{{ item.judul }}</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="pagination">
+                    {% if artikel_page_obj.has_previous %}
+                    <a href="?artikel_page={{ artikel_page_obj.previous_page_number }}" class="prev">Previous</a>
+                    {% endif %}
+
+                    {% for num in artikel_page_obj.paginator.page_range %}
+                    {% if artikel_page_obj.number == num %}
+                    <a href="?artikel_page={{ num }}" class="active">{{ num }}</a>
+                    {% elif num > artikel_page_obj.number|add:'-3' and num < artikel_page_obj.number|add:'3' %}
+                    <a href="?artikel_page={{ num }}">{{ num }}</a>
+                    {% endif %}
+                    {% endfor %}
+
+                    {% if artikel_page_obj.has_next %}
+                    <a href="?artikel_page={{ artikel_page_obj.next_page_number }}" class="next">Next</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Main News End-->
+{% endif %}
+{% if kegiatan_page_obj %}
+<div class="main-news">
+    <div class="container">
+        <div class="row">
+            <h2>Kegiatan</h2>
+            <div class="col-12">
+                <div class="row news-items">
+                    {% for item in kegiatan_page_obj %}
+                    <div class="col-md-4">
+                        <div class="mn-img">
+                            <img src="/data/{{ item.foto }}" alt="{{ item.nama }}" />
+                            <div class="mn-dateTime">
+                                <p>{{ item.tanggal }}</p>
+                            </div>
+                            <div class="mn-title">
+                                <a href="#" class="detail-kegiatan" data-id="{{ item.id }}" data-toggle="modal"
+                                    data-target="#kegiatanModal" style="font-weight:bold;">{{ item.nama }}</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="pagination">
+                    {% if kegiatan_page_obj.has_previous %}
+                    <a href="?kegiatan_page={{ kegiatan_page_obj.previous_page_number }}" class="prev">Previous</a>
+                    {% endif %}
+
+                    {% for num in kegiatan_page_obj.paginator.page_range %}
+                    {% if kegiatan_page_obj.number == num %}
+                    <a href="?kegiatan_page={{ num }}" class="active">{{ num }}</a>
+                    {% elif num > kegiatan_page_obj.number|add:'-3' and num < kegiatan_page_obj.number|add:'3' %}
+                    <a href="?kegiatan_page={{ num }}">{{ num }}</a>
+                    {% endif %}
+                    {% endfor %}
+
+                    {% if kegiatan_page_obj.has_next %}
+                    <a href="?kegiatan_page={{ kegiatan_page_obj.next_page_number }}" class="next">Next</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% if pengumuman_page_obj %}
+<div class="tab-news">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Pengumuman</h2>
+                <div class="tab-content">
+                    <div class="container">
+                        {% for item in pengumuman_page_obj %}
+                        <div class="tn-news">
+                            <div class="tn-week">
+                                <h1 style="color: white;">{{ item.month }} 
+                                    <h3 style="color: white;">{{ item.day }}</h3>
+                                </h1>
+                            </div>
+                            <div class="tn-title">
+                                <a href="#" class="detail-pengumuman" data-id="{{ item.id }}" data-toggle="modal"
+                                    data-target="#pengumumanModal" style="font-weight:bold;">{{ item.judul }}</a>
+                                <p></p>
+                                <p><i class="fas fa-calendar"></i> {{ item.tanggal }} | <i class="fas fa-clock"></i> {{ item.waktu }} | <i class="fas fa-map-marker"></i> {{ item.tempat }}</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="pagination">
+                        {% if pengumuman_page_obj.has_previous %}
+                        <a href="?pengumuman_page={{ pengumuman_page_obj.previous_page_number }}" class="prev">Previous</a>
+                        {% endif %}
+
+                        {% for num in pengumuman_page_obj.paginator.page_range %}
+                        {% if pengumuman_page_obj.number == num %}
+                        <a href="?pengumuman_page={{ num }}" class="active">{{ num }}</a>
+                        {% elif num > pengumuman_page_obj.number|add:'-3' and num < pengumuman_page_obj.number|add:'3' %}
+                        <a href="?pengumuman_page={{ num }}">{{ num }}</a>
+                        {% endif %}
+                        {% endfor %}
+
+                        {% if pengumuman_page_obj.has_next %}
+                        <a href="?pengumuman_page={{ pengumuman_page_obj.next_page_number }}" class="next">Next</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+
+{% if not artikel_page_obj and not pengumuman_page_obj and not kegiatan_page_obj %}
+<div class="tab-news">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Tidak ditemukan</h2>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% include 'home/kegiatan_modal.html' %}
+{% include 'home/pengumuman_modal.html' %}
+{% endblock %}

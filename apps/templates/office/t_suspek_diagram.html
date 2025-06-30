@@ -1,0 +1,209 @@
+{% load static %}
+{% block content %}
+<style>
+  .card-header {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+  }
+</style>
+<div class="container">
+    <!-- Section Total -->
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Total Pengunjung</h3>
+                </div>
+                <div class="card-body">
+                    <div class="chart-responsive">
+                        <canvas id="lineTotal" height="100"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Total Suspek</h3>
+                </div>
+                <div class="card-body">
+                    <div class="chart-responsive">
+                        <canvas id="lineDiagnosa" height="100"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section Berdasarkan Diagnosa (Laki-Laki & Perempuan) -->
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Total Suspek (Laki-Laki)</h3>
+                </div>
+                <div class="card-body">
+                    <div class="chart-responsive">
+                        <canvas id="lineDiagnosaLaki" height="100"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Total Suspek (Perempuan)</h3>
+                </div>
+                <div class="card-body">
+                    <div class="chart-responsive">
+                        <canvas id="lineDiagnosaPerempuan" height="100"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(function () {
+        // Ambil data dari template dengan aman
+        var labels = {{ all_dates|safe }};
+        var totalData = {{ total_by_date|safe }};
+        var lakiLakiData = {{ total_by_gender.1|safe }};
+        var perempuanData = {{ total_by_gender.2|safe }};
+        var totalDiagnosaData = {{ total_by_diagnosa|safe }};
+        var totalDiagnosaGenderData = {{ total_by_diagnosa_gender|safe }};
+        var diagnosaLabels = {{ diagnosa_labels|safe }};
+        var genderLabels = {{ gender_labels|safe }};
+        
+
+        // Grafik Total
+        var ctxTotal = $('#lineTotal').get(0).getContext('2d');
+        var lineTotal = new Chart(ctxTotal, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Total Keseluruhan',
+                        data: Object.values(totalData),
+                        borderColor: '#3c8dbc',
+                        fill: false
+                    },
+                    {
+                        label: 'Laki-Laki',
+                        data: Object.values(lakiLakiData),
+                        borderColor: '#f56954',
+                        fill: false
+                    },
+                    {
+                        label: 'Perempuan',
+                        data: Object.values(perempuanData),
+                        borderColor: '#00a65a',
+                        fill: false
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: true },
+                    title: {
+                        display: true,
+                        text: 'Total Keseluruhan, Laki-Laki, dan Perempuan'
+                    }
+                }
+            }
+        });
+
+        // Grafik Berdasarkan Diagnosa
+        var ctxDiagnosa = $('#lineDiagnosa').get(0).getContext('2d');
+        var datasetsDiagnosa = diagnosaLabels.map(function(label, index) {
+            return {
+                label: label,
+                data: Object.values(totalDiagnosaData[index + 1]),
+                borderColor: `hsl(${index * 40}, 70%, 50%)`,
+                fill: false
+            };
+        });
+
+        var lineDiagnosa = new Chart(ctxDiagnosa, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: datasetsDiagnosa
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: true },
+                    title: {
+                        display: true,
+                        text: 'Total Berdasarkan Diagnosa'
+                    }
+                }
+            }
+        });
+
+        // Grafik Berdasarkan Diagnosa untuk Laki-Laki
+        var ctxDiagnosaLaki = $('#lineDiagnosaLaki').get(0).getContext('2d');
+        var datasetsDiagnosaLaki = diagnosaLabels.map(function(label, index) {
+            return {
+                label: `${label} - Laki-Laki`,
+                data: Object.values(totalDiagnosaGenderData[index + 1][1]),
+                borderColor: `hsl(${index * 40}, 70%, 50%)`,
+                fill: false
+            };
+        });
+
+        var lineDiagnosaLaki = new Chart(ctxDiagnosaLaki, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: datasetsDiagnosaLaki
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: true },
+                    title: {
+                        display: true,
+                        text: 'Total Berdasarkan Diagnosa (Laki-Laki)'
+                    }
+                }
+            }
+        });
+
+        // Grafik Berdasarkan Diagnosa untuk Perempuan
+        var ctxDiagnosaPerempuan = $('#lineDiagnosaPerempuan').get(0).getContext('2d');
+        var datasetsDiagnosaPerempuan = diagnosaLabels.map(function(label, index) {
+            return {
+                label: `${label} - Perempuan`,
+                data: Object.values(totalDiagnosaGenderData[index + 1][2]),
+                borderColor: `hsl(${(index * 40 + 20)}, 70%, 50%)`,
+                fill: false
+            };
+        });
+
+        var lineDiagnosaPerempuan = new Chart(ctxDiagnosaPerempuan, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: datasetsDiagnosaPerempuan
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: true },
+                    title: {
+                        display: true,
+                        text: 'Total Berdasarkan Diagnosa (Perempuan)'
+                    }
+                }
+            }
+        });
+    });
+</script>
+{% endblock %}

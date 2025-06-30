@@ -1,0 +1,97 @@
+{% extends 'layouts/table_download.html' %}
+<!--Title-->
+{% block tableTitle %}
+Data Suspek
+{% endblock%}
+{% block itemCRUD %}
+<!-- Add data_suspek Modal -->
+<a class="btn btn-info" data-toggle="modal" data-target="#addModal"  onclick="openAddModal()">
+    <i class="fas fa-fw fa-plus"></i>
+    <span>Tambah Data </span>
+</a>
+<a class="btn btn-info" data-toggle="modal" data-target="#pengumumanModal">
+    <i class="fa-regular fa-file-lines"></i>
+    <span>Laporan </span>
+</a>
+<script>
+    // Fungsi untuk membuka modal Add dan mengisi nilai IMT secara otomatis saat input tb atau bb berubah
+function openAddModal() {
+  var modalId = "#addModal";
+
+  // Event listener untuk menghitung IMT saat tb atau bb diubah
+  $(modalId).find("#id_tb, #id_bb").off('input').on('input', function() {
+    calculateIMT(modalId);
+  });
+
+  // Inisialisasi Tempus Dominus untuk tanggal jika diperlukan
+  new tempusDominus.TempusDominus(
+    document.querySelector(modalId + ' #id_tanggal'), {
+      localization: {
+        locale: 'id-ID',
+        format: 'dd/MM/yyyy'
+      },
+      display: {
+        components: {
+          useTwentyfourHour: false,
+          calendar: true,
+          date: true,
+          month: true,
+          year: true,
+          hours: false,
+          minutes: false,
+          seconds: false
+        }
+      }
+    }
+  );
+}
+
+// Fungsi untuk menghitung IMT
+function calculateIMT(modalId) {
+  var tb = parseFloat($(modalId).find("#id_tb").val()); // Tinggi badan dalam cm
+  var bb = parseFloat($(modalId).find("#id_bb").val()); // Berat badan dalam kg
+  var meter = tb / 100; // Konversi tinggi badan ke meter
+  var imt = 0;
+
+  if (tb > 0 && bb > 0) {
+    imt = (bb / (meter * meter)).toFixed(1); // Perhitungan IMT
+    $(modalId).find("#id_imt").val(imt); // Set nilai IMT pada input
+    console.log('IMT berhasil dihitung:', imt); // Debug: menampilkan hasil IMT
+  } else {
+    console.log('Nilai TB atau BB tidak valid:', tb, bb); // Debug jika TB atau BB tidak valid
+  }
+}
+</script>
+<!-- Add artikel Modal -->
+{% include 'office/data_suspek/add_data_suspek.html' %}
+{% include 'office/data_suspek/laporan_data_suspek.html' %}
+{% endblock%}
+{% block itemTitle %}
+<th>No</th>
+<th>No KTP</th>
+<th>Nama</th>
+<th>Jenis Kelamin</th>
+<th>Alamat</th>
+<th>Umur</th>
+<th>Diagnosa</th>
+<th>Opsi</th>
+{% endblock%}
+{% block itemData %}
+<td>{{ forloop.counter }}</td>
+<td>{{i.nik}}</td>
+<td>{{i.nama}}</td>
+<td>{{i.gender.nama}}</td>
+<td>{{i.alamat}}</td>
+<td>{{i.umur}}</td>
+<td>{{i.diagnosa}}</td>
+
+{% endblock%}
+<!--Modals-->
+{% block update %}
+
+<a class="btn btn-success" href="{% url 'data_suspek:view_suspek' i.nik %}" title="View">
+    <i class="fa-solid fa-person"></i>
+</a>
+
+{% endblock%}
+

@@ -1,0 +1,95 @@
+<script>
+    //add 
+var data_khusus = [{% for list in dummy %} {% if list.jenis == 'data_khusus' %}{{0}}, {% endif%}{% endfor%}];
+var data_gejala = [{% for list in dummy %} {% if list.jenis == 'data_gejala' %}{{0}}, {% endif%}{% endfor%}];
+var data_luar = [{% for list in dummy %} {% if list.jenis == 'data_luar' %}{{0}}, {% endif%}{% endfor%}];
+var data_dalam = [{% for list in dummy %} {% if list.jenis == 'data_dalam' %}{{0}}, {% endif%}{% endfor%}];
+
+function openAddModal(id) {
+    const token = "{{ csrf_token }}";
+    var modalId = "#addModal";
+    $(modalId).find("#id_data_khusus").val(data_khusus);
+    $(modalId).find("#id_data_gejala").val(data_gejala);
+    $(modalId).find("#id_data_luar").val(data_luar);
+    $(modalId).find("#id_data_dalam").val(data_dalam);
+
+    // Tidak perlu memanggil handler event pencarian NIK di sini
+}
+
+// Pastikan event handler hanya ditambahkan sekali
+$(document).ready(function() {
+    // Tempatkan semua kode yang bergantung pada document ready di sini
+    openAddModal();
+
+    // Pastikan event handler hanya ditambahkan sekali
+    $('#search-nik').off('click').on('click', function() {
+        let nik = $('#id_nik').val();
+        $.ajax({
+            url: '{% url "diagnosis:registrasi:search_nik" %}',  // URL untuk endpoint pencarian
+            data: {
+                'nik': nik
+            },
+            success: function(data) {
+                var modalId = "#addModal";
+                if (data.success) {
+                    $(modalId).find('#id_nama').val(data.nama);
+                    $(modalId).find('#id_umur').val(data.umur);
+                    $(modalId).find('#id_alamat').val(data.alamat);
+                    $(modalId).find('#id_gender').val(data.gender);
+
+                    console.log('data Khusus', data_khusus);
+                    console.log('data Gejala', data_gejala);
+                    console.log('data Luar', data_luar);
+                    console.log('data Dalam', data_dalam);
+
+                } else {
+                    alert('Data tidak ditemukan');
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('AJAX Error:', xhr.responseText, status, error);  // Tambahkan logging detail
+                alert('Terjadi kesalahan saat mencari data');
+            }
+        });
+    });
+});
+
+
+
+
+//Update
+function openEditModal(id,nik,nama,umur,gender,alamat,tanggal,data_khusus,data_gejala,data_luar,data_dalam) {
+  console.log(gender);
+    var modalId = "#updateModal" + id;
+    $(modalId).find("#id_nik").val(nik);
+    $(modalId).find("#id_nama").val(nama);
+    $(modalId).find("#id_umur").val(umur); 
+    $(modalId).find("#id_gender").val(gender); 
+    $(modalId).find("#id_alamat").val(alamat);        
+    $(modalId).find("#id_data_khusus").val(data_khusus); 
+    $(modalId).find("#id_data_gejala").val(data_gejala);    
+    $(modalId).find("#id_data_luar").val(data_luar);    
+    $(modalId).find("#id_data_dalam").val(data_dalam);    
+                // Your Tempus Dominus initialization code here
+            new tempusDominus.TempusDominus(
+            document.querySelector('#updateModal' + id + ' #id_tanggal'),  // Ganti 'updateModal'+id dengan '#updateModal' + id + ' #id_tanggal'
+            {
+                localization: {
+                    locale: 'id-ID',
+                    format: 'dd/MM/yyyy',
+                },
+                display: {
+                      components: {
+                        calendar: true,
+                        date: true,
+                        month: true,
+                        year: true,
+                        hours: false,
+                        minutes: false,
+                        seconds: false,
+                      },
+                  },
+            }
+        );  
+  }
+</script>

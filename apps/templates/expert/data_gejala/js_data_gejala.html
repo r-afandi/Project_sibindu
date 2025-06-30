@@ -1,0 +1,12 @@
+<script>
+  //Update
+  function openEditModal(id, nama, alias, jenis, pernyataan,penanganan) {
+    var modalId = "#updateModal" + id;
+    $(modalId).find("#id_nama").val(nama);
+    $(modalId).find("#id_alias").val(alias);
+    $(modalId).find("#id_jenis").val(jenis);
+    $(modalId).find("#id_pernyataan").val(pernyataan);
+    $(modalId).find("#id_penanganan").val(penanganan);
+
+  }
+</script>

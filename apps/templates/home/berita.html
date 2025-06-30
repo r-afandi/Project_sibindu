@@ -1,0 +1,110 @@
+{% extends 'layouts/base_home.html' %}
+{% load static %}
+{% block title %}Sibindu{% endblock %}
+{% block content %}
+<style>
+  /* Tidak bisa di masukan ke dalam style.css */
+  .tn-img img{
+    width: 100%;
+    height: 300px; 
+    object-fit: cover;
+  }
+  .mn-img img{
+    width: 100%;
+    height: 200px; 
+    object-fit:cover;
+  }
+</style>
+<!-- Top News Start-->
+<div class="top-news">
+  <div class="container">
+    <div class="row">
+      {% if artikel_first %}
+      <div class="col-md-6 tn-left">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="tn-img">
+              <img src="{{artikel_first.gambar.url}}" loading="lazy" alt="{{artikel_first.judul}}"/>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 tn-right">
+        <div class="row">
+          <div class="sn-content">
+            <h1 class="sn-title">  {{artikel_first.judul}}</h1>
+            <p style="color: #333333;"><i class="fas fa-user"></i>  {{artikel_first.petugas}}</p>
+            <p style="color: #333333;"><i class="fas fa-calendar"></i>  {{artikel_first.tanggal}}</p>
+            <div id="article-content">
+              <!-- Konten artikel akan disuntikkan di sini oleh JavaScript -->
+            </div>
+          
+            <a href="/artikel_satuan/{{artikel_first.id}}" style="font-weight:bold;">Selanjutnya</a>
+          </div>
+        </div>
+      </div>
+      {% endif%}
+    </div>
+  </div>
+</div>
+<!-- Top News End-->
+
+<!-- Main News Start-->
+<div class="main-news">
+<div class="container">
+    <div class="row">
+        <h2>Artikel Lainnya</h2>
+        <div class="col-12">
+          
+            <div class="row news-items"> 
+              {% for item in page_obj %} 
+              <div class="col-md-4">            
+              <div class=" mn-img">
+                <img src="{{item.gambar.url}}" loading="lazy" alt="{{item.judul}}" />
+                 <div class="mn-dateTime"><p>{{item.tanggal}}</p></div>
+                <div class="mn-title">
+                    <a href="/artikel_satuan/{{item.id}}">{{item.judul}}</a>
+                </div>
+            </div>  
+              </div>
+            {% endfor %}           
+            </div>
+            
+            <div class="pagination">
+              {% if page_obj.has_previous %}
+              <a href="?page={{ page_obj.previous_page_number }}" class="prev">Previous</a>
+              {% endif %}
+
+              {% for num in page_obj.paginator.page_range %}
+              {% if page_obj.number == num %}
+              <a href="?page={{ num }}" class="active">{{ num }}</a>
+              {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+              <a href="?page={{ num }}">{{ num }}</a>
+              {% endif %}
+              {% endfor %}
+
+              {% if page_obj.has_next %}
+              <a href="?page={{ page_obj.next_page_number }}" class="next">Next</a>
+              {% endif %}
+          </div>
+        </div>
+    </div>
+</div>
+</div>
+<!-- Main News End-->
+<!-- script truncate-->
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+      var articleContent = '{{ artikel_first.artikel|escapejs|safe }}';
+      document.getElementById('article-content').innerHTML = articleContent;
+
+      // Truncate to 10 words
+      var element = document.getElementById('article-content');
+      if (element) {
+          var words = element.innerText.split(' ').slice(0, 12).join(' ');
+          element.innerText = words + ' ...';
+      }
+  });
+</script>
+
+{% endblock%}

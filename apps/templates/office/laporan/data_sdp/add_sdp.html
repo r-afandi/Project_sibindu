@@ -1,0 +1,11 @@
+{% extends 'layouts/modals/add.html' %}
+{% load crispy_forms_tags %}
+{% block label %}
+Tambah SDP
+{% endblock %}
+{% block action %}
+{% url 'sdp:add_data_sdp' %}
+{% endblock %}
+{% block form %}
+{{ form|crispy }}
+{% endblock %}

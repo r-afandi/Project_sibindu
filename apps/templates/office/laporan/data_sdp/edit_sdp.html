@@ -1,0 +1,14 @@
+{% extends 'layouts/modals/update.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block label %}
+Update Sumber Daya Posbindu
+{% endblock %}
+{% block action %}
+{% url 'sdp:update_data_sdp' i.id %}
+{% endblock %}
+{% block form %}
+{{ form|crispy }}
+{% endblock %}
+
+

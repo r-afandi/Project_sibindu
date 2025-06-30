@@ -1,0 +1,43 @@
+<!-- Modal -->
+<div class="modal fade" id="pengumumanModal" tabindex="-1" role="dialog" aria-labelledby="pengumumanModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="pengumumanModalLabel">Pilih Laporan</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="pengumumanForm">
+                    <div class="form-group">
+                        <label for="tanggalPengumumanSelect">Laporan</label>
+                        <select class="form-control select2-bs4" multiple="multiple" id="tanggalPengumumanSelect" name="tanggal">
+                            {% for laporan in pengumuman_list %}
+                                <option value="{{ laporan.tanggal }}"><b>P-{{ forloop.counter }}:{{ laporan.tanggal}}</b></option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                <button type="button" class="btn btn-primary" target="_blank" onclick="submitForm()">Cetak</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function submitForm() {
+    var selectedDates = [];
+    var options = document.querySelectorAll('select[name="tanggal"] option:checked');
+    options.forEach(option => {
+        selectedDates.push(option.value);
+    });
+
+    var url = '{% url "data_suspek:cetak_suspek" %}?tanggal=' + selectedDates.join(',');
+    window.location.href = url; // Mengarahkan pengguna ke URL baru
+}
+
+</script>
+

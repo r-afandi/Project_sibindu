@@ -1,0 +1,74 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  {% block header %}   
+<head>
+
+  <!-- css -->
+  {% include "includes/header.html" %}
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <!-- ChartJS -->
+  <script src="{% static 'assets/plugins/chart.js/Chart.min.js' %}"></script>
+  <body class="hold-transition sidebar-mini layout-fixed">
+    <div class="wrapper">
+    
+    <!-- Preloader -->
+    <div class="preloader flex-column justify-content-center align-items-center">
+      <img class="animation__shake" src="{% static 'ico/sibindu.min.png' %}" alt="SIBINDU" height="60" width="60">
+    </div>
+
+  <!-- Navbar -->
+  {% include "includes/navbar.html" %}
+  <!-- /.navbar -->
+
+  <!-- sidebar -->
+  {% include 'includes/aside.html' with menu=menu group=group %}
+
+  <!-- /.sidebar -->
+
+  {% endblock %}
+  {% include "layouts/wraper.html" %}
+    <!-- Main content -->
+    {% if messages %}
+    <div class="container mt-4">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    <section class="content">
+      <!-- container-fluid -->
+      <div class="container-fluid">
+
+        {% block content %}{% endblock content %}
+      </div>
+
+      
+    </section>
+    <!-- /.content -->
+
+  </div>
+  <!-- /.content-wrapper -->
+  {% block footer %}
+  <footer class="main-footer" style="background-color: black">
+    <strong>Copyright &copy; 2022-{% now 'Y' %} <a href="">SIBINDU</a>.</strong>
+    Hak cipta dilindungi undang-undang.
+    <div class="float-right d-none d-sm-inline-block">
+      <b>Version</b> 0.0.4
+    </div>
+  </footer>
+</div>
+<!-- ./wrapper -->
+<!--Script Assets-->
+
+</body>
+{% include "includes/scripts.html" %}
+{% endblock %}
+
+</html>
+

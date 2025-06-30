@@ -1,0 +1,55 @@
+{% extends 'layouts/base_iframe.html' %}
+{% block content %}
+<div class="card">
+
+
+    <div class="card-header">
+        <h3 class="card-title">{% block tableTitle %}{% endblock%}</h3>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        <!-- Button trigger modal -->
+        <a class="btn btn-success" href="">
+            <i class="fa-solid fa-arrows-rotate"></i>
+            <span>Refresh Data</span>
+        </a>
+        {% block itemCRUD %}
+        {% endblock%}
+
+        <table id="example2" class="table table-bordered table-striped table-hover ">
+            <thead>
+                <tr>
+                    {% block itemTitle %}
+
+                    {% endblock%}
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for i in data %}
+
+                <tr>
+                    {% block itemData%}
+                    {% endblock%}
+                    <td>
+                        <div class="btn-group">
+                            {% block update %}
+                            {% endblock%}
+
+                            {% block delete %}
+                            {% endblock%}
+                        </div>
+
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <!-- /.card-body -->
+</div>
+{% block JS %}
+
+{% endblock%}
+
+{% endblock %}

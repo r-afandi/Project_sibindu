@@ -1,0 +1,70 @@
+{% extends 'layouts/table.html' %}
+<!--Title-->
+{% block tableTitle %} Data Diagnosa 
+{% endblock%}
+{% block itemCRUD %}
+
+    <a class="btn btn-info" data-toggle="modal" data-target="#addModal" onclick="openAddModal()">
+        <i class="fas fa-fw fa-plus"></i>
+        <span>Tambah Data </span>
+    </a>
+
+<!-- Add diagnosa Modal -->
+{% include 'expert/data_diagnosa/add_diagnosa.html'  %}
+{% endblock%}
+<!-- nama baris -->
+{% block itemTitle %}
+<th>No</th>
+<th>Diagnosa</th>
+<th>Kode</th>
+<th>Status</th>
+<!--perbaiki looping agar jadi satu-->
+
+{% for i in nama_tabel %} 
+<th>{{i.nama}}</th>
+{% endfor%}
+<!--perbaiki looping agar jadi satu-->
+<th>Penanganan</th>
+<th>Tanggal ditambah</th>
+<th>Tanggal diubah</th>
+<th>Opsi</th>
+{% endblock%}
+<!-- value -->
+{% block itemData %}
+<td>{{ forloop.counter }}</td>
+<td>{{i.diagnosa}}</td>
+<td>{{i.kode}}</td>
+<td><span class="badge bg-{{i.status.badge}}">{{i.status}}</span> </td>
+{% for j in i.gejala %}
+<td>{% if j == '1'%}
+    <span class="badge bg-danger">YA</span>
+    {% elif j == '2'%}
+    <span class="badge bg-success">TIDAK</span>
+    {% else %}
+    {{j}}
+{% endif %}
+</td>
+{% endfor %}
+<td>{{i.penanganan}}</td>
+<td>{{i.created_at}}</td>
+<td>{{i.update_at}}</td>
+<!-- Edit diagnosa Modal -->
+{% include 'expert/data_diagnosa/edit_diagnosa.html' %}
+<!-- Delete diagnosa Modal -->
+{% include 'expert/data_diagnosa/delete_diagnosa.html' %}
+
+<!-- js -->
+{% include 'expert/data_diagnosa/js_data_diagnosa.html' %}
+{% endblock%}
+<!--Modals-->
+{% block update %}
+  <button type="button" class="btn btn-warning"data-toggle="modal" data-target="#updateModal{{i.id}}" onclick="openEditModal('{{ i.id }}','{{i.kode}}','{{i.tipe_id}}','{{i.status_id}}','{{ i.diagnosa }}',`{{ i.penanganan | escapejs }}`,{% for j in i.gejala %}'{{j}}', {% endfor%})">
+      <i class="fas fa-pencil-alt"></i>
+  </button>
+{% endblock%}
+
+{% block delete %}
+<button type="button" class="btn btn-danger " data-toggle="modal" data-target="#deleteModal{{i.id}}">
+    <i class="fas fa-trash-alt"></i>
+</button>
+{% endblock%}

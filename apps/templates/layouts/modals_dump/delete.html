@@ -1,0 +1,23 @@
+<!-- Modal -->
+<div class="modal fade" id="deleteModal{{ i.id }}" tabindex="-1" role="dialog"
+  aria-labelledby="deleteModalLabel{{ i.id }}" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <form method="post" action="{% block action %}{% endblock %}">
+        {% csrf_token %}
+        <div class="modal-body ">
+            <div class="swal2-icon swal2-error swal2-icon-show" style="display: flex;">
+              <div class="swal2-icon-content">!</div>
+            </div>
+            <p></p>
+            <h3 class="text-center text-bold">Yakin Data Dihapus ?</h3>
+            <p class="text-center"> Data yang dihapus tidak bisa dikembalikan !</p>
+            <p></p>
+        <div class="d-flex justify-content-around">
+          <button type="button" class="btn btn-success" data-dismiss="modal">Tidak</button>
+          <button type="submit" class="btn btn-danger">Hapus Data</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,277 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block content %}
+<div class="card">
+  <div class="card-header">
+    <h3 class="card-title">Data Suspek</h3>
+  </div>
+  <!-- /.card-header -->
+  <div class="card-body">
+    <!-- Button trigger modal -->
+ <div class="row">
+      {% for i in data|slice:":1" %}
+      <div class="col-md-6">
+      <h5>Nama: {{i.nama}}</h5>
+      <h5>Umur: {{i.umur}}</h5>
+    </div>
+    <div class="col-md-6">
+      <h5>Gender: {{i.gender}}</h5>
+      <h5>Alamat: {{i.alamat}}</h5>
+    </div>
+      {% endfor%}
+    </div>
+    
+    <table id="example2" class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th>No</th>
+          <th>pelaksanaan</th>
+          <th>Diagnosa</th>
+          <th>Petugas Diagnosa</th>
+          {% for i in nama_tabel %}
+          <th>{{i.nama}}</th>
+          {% endfor%}
+
+          <th>Opsi</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for i in data %}
+
+        <tr>
+          <td>{{forloop.counter}}</td>
+          <td>{{i.tanggal}}</td>
+          <td>{{i.diagnosa}}</td>
+          <td>{{ i.petugas.first_name}} {{ i.petugas.last_name}}</td>
+          {% for j in i.gejala %}
+          <td>{% if j == '1'%}
+            <span class="badge bg-danger">YA</span>
+            {% elif j == '2'%}
+            <span class="badge bg-success">Tidak</span>
+            {% else %}
+            {{j}}
+            {% endif %}
+          </td>
+          {% endfor %}
+          <td>
+
+            <div class="btn-group" role="group" aria-label="Basic example">
+
+              <a class="btn btn-info" href="{% url 'data_suspek:print_suspek' i.id %}" title="Print" target="_blank"> 
+                <i class="fa-solid fa-print"></i>
+              </a>
+              <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#updateModal{{i.id}}"
+                onclick="openEditModal('{{ i.id }}','{{ i.tanggal }}', '{{ i.nik }}','{{ i.nama }}','{{ i.gender_id }}', '{{ i.alamat }}','{{ i.umur }}','{{ i.diagnosa_id }}','{{ user.id }}', {% for j in i.gejala %}'{{j}}',{% endfor %})"
+                title="Edit">
+                <i class="fas fa-pencil-alt"></i>
+              </button>
+              <button type="button" class="btn btn-danger " data-toggle="modal" data-target="#deleteModal{{i.id}}">
+                <i class="fas fa-trash-alt"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+                    <!-- Edit artikel Modal -->
+                    {% include 'office/data_suspek/edit_data_suspek.html' %}
+                    <!-- Delete artikel Modal -->
+                    {% include 'office/data_suspek/delete_data_suspek.html' %}
+        
+        {% endfor %}
+        {% include 'office/data_suspek/js_data_suspek.html' %}
+      </tbody>
+    </table>
+  </div>
+  <!-- /.card-body -->
+</div>
+<div class="card">
+  <div class="card-header">
+    <h3 class="card-title">Statistik</h3>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <!-- Tekanan Darah -->
+      <div class="card card-primary card-outline">
+        <div class="card-header">
+          <h3 class="card-title">
+            <i class="far fa-chart-bar"></i>
+            Tekanan Darah
+          </h3>
+
+          <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+            <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
+          </div>
+        </div>
+        <div class="card-body">
+          <canvas id="line-tekanandarah" style="height: 300px;"></canvas>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <!-- Gula Darah Sewaktu -->
+      <div class="card card-primary card-outline">
+        <div class="card-header">
+          <h3 class="card-title">
+            <i class="far fa-chart-bar"></i>
+            Gula Darah Sewaktu
+          </h3>
+
+          <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+            <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
+          </div>
+        </div>
+        <div class="card-body">
+          <canvas id="line-guladarah" style="height: 300px;"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <!-- Asam Urat -->
+      <div class="card card-primary card-outline">
+        <div class="card-header">
+          <h3 class="card-title">
+            <i class="far fa-chart-bar"></i>
+            Asam Urat
+          </h3>
+
+          <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+            <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
+          </div>
+        </div>
+        <div class="card-body">
+          <canvas id="line-asamurat" style="height: 300px;"></canvas>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <!-- Kolestrol -->
+      <div class="card card-primary card-outline">
+        <div class="card-header">
+          <h3 class="card-title">
+            <i class="far fa-chart-bar"></i>
+            Kolestrol
+          </h3>
+
+          <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+            <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
+          </div>
+        </div>
+        <div class="card-body">
+          <canvas id="line-kolesterol" style="height: 300px;"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  const printButton = document.getElementById('print-button');
+
+  printButton.addEventListener('click', () => {
+    // Dapatkan konten HTML yang ingin dicetak
+    const content = document.getElementById('print-content').innerHTML;
+
+    // Buat jendela baru untuk menampilkan pratinjau PDF
+    const printWindow = window.open('', '', 'width=400,height=580');
+
+    // Masukkan konten HTML ke dalam jendela baru
+    printWindow.document.write(content);
+
+    // Cetak konten di jendela baru
+    printWindow.print();
+  });
+</script>
+<script>
+  $(document).ready(function () {
+    // Data for the charts
+    var labels = [{% for i in data %} '{{ i.tanggal }}',{% endfor %}];
+
+    var sistoik = [{% for value in data_luar.st %}{{ value.1 }}{% if not forloop.last %}, {% endif %}{% endfor %}];
+    var diastoik = [{% for value in data_luar.dt %}{{ value.1 }}{% if not forloop.last %}, {% endif %}{% endfor %}];
+    var gdl = [{% for value in data_luar.gdl %}{{ value.1 }}{% if not forloop.last %}, {% endif %}{% endfor %}];
+    var asam_urat = [{% for value in data_luar.au %}{{ value.1 }}{% if not forloop.last %}, {% endif %}{% endfor %}];
+    var cholesterol = [{% for value in data_luar.chol %}{{ value.1 }}{% if not forloop.last %}, {% endif %}{% endfor %}];
+
+    // Line chart data structure
+    var lineChartData = {
+      labels: labels, // Tanggal akan muncul di sumbu x
+      datasets: [
+        {
+          label: 'Sistoik',
+          backgroundColor: 'rgba(60,141,188,0.2)',
+          borderColor: '#3c8dbc',
+          fill: false,
+          data: sistoik
+        },
+        {
+          label: 'Diastoik',
+          backgroundColor: 'rgba(0,192,239,0.2)',
+          borderColor: '#00c0ef',
+          fill: false,
+          data: diastoik
+        },
+        {
+          label: 'Gula Darah',
+          backgroundColor: 'rgba(243,156,18,0.2)',
+          borderColor: '#f39c12',
+          fill: false,
+          data: gdl
+        },
+        {
+          label: 'Asam Urat',
+          backgroundColor: 'rgba(0,166,90,0.2)',
+          borderColor: '#00a65a',
+          fill: false,
+          data: asam_urat
+        },
+        {
+          label: 'Kolesterol',
+          backgroundColor: 'rgba(245,105,84,0.2)',
+          borderColor: '#f56954',
+          fill: false,
+          data: cholesterol
+        }
+      ]
+    };
+
+    // Line chart configuration
+    function createLineChart(chartId, datasets) {
+      var ctx = $(chartId).get(0).getContext('2d');
+      var lineChartOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          x: {
+            type: 'category', // Menggunakan kategori, yaitu tanggal
+            beginAtZero: true,
+          },
+          y: {
+            beginAtZero: true,
+          }
+        }
+      };
+
+      new Chart(ctx, {
+        type: 'line', // Ubah dari 'bar' menjadi 'line'
+        data: {
+          labels: lineChartData.labels,
+          datasets: datasets
+        },
+        options: lineChartOptions
+      });
+    }
+
+    // Create line charts
+    createLineChart('#line-tekanandarah', [lineChartData.datasets[0], lineChartData.datasets[1]]);
+    createLineChart('#line-guladarah', [lineChartData.datasets[2]]);
+    createLineChart('#line-asamurat', [lineChartData.datasets[3]]);
+    createLineChart('#line-kolesterol', [lineChartData.datasets[4]]);
+  });
+</script>
+
+{% endblock content%}

@@ -1,0 +1,51 @@
+{% extends 'layouts/table.html' %}
+<!--Title-->
+{% block tableTitle %} Data Gejala {% endblock%}
+{% block itemCRUD %}
+
+    <a class="btn btn-info" data-toggle="modal" data-target="#addModal">
+        <i class="fas fa-fw fa-plus"></i>
+        <span>Tambah Data </span>
+    </a>
+
+<!-- Add gejala Modal -->
+{% include 'expert/data_gejala/add_gejala.html'  %}
+
+{% endblock%}
+{% block itemTitle %}
+<th>No</th>
+<th>Nama</th>
+<th>Alias</th>
+<th>Jenis</th>
+<th>Pernyataan</th>
+<th>Tanggal ditambah</th>
+<th>Tanggal diubah</th>
+<th>Opsi</th>
+{% endblock%}
+{% block itemData %}
+<td>{{ forloop.counter }}</td>
+<td>{{i.nama}}</td>
+<td>{{i.alias}}</td>
+<td>{{i.jenis}}</td>
+<td>{{i.pernyataan}}</td>
+<td>{{i.created_at}}</td>
+<td>{{i.updated_at}}</td>
+<!-- Edit gejala Modal -->
+{% include 'expert/data_gejala/edit_gejala.html' %}
+<!-- Delete gejala Modal -->
+{% include 'expert/data_gejala/delete_gejala.html' %}
+<!-- js -->
+{% include 'expert/data_gejala/js_data_gejala.html' %}
+{% endblock%}
+{% block update %}
+  <button type="button" class="btn btn-warning"data-toggle="modal" data-target="#updateModal{{i.id}}" onclick="openEditModal('{{ i.id }}','{{ i.nama }}', '{{ i.alias }}','{{ i.jenis }}','{{i.pernyataan}}',`{{ i.penanganan | escapejs }}`)">
+      <i class="fas fa-pencil-alt"></i>
+  </button>
+{% endblock%}
+
+{% block delete %}
+<button type="button" class="btn btn-danger " data-toggle="modal" data-target="#deleteModal{{i.id}}">
+    <i class="fas fa-trash-alt"></i>
+</button>
+{% endblock%}
+

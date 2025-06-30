@@ -1,0 +1,117 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block content %}
+<div class="card">
+  <div class="card-header">
+    <h3 class="card-title">Notifikasi</h3>
+  </div>
+  <!-- /.card-header -->
+  <div class="card-body">
+    <!-- Button for marking as read/unread and delete -->
+    <div class="mb-2">
+      <button class="btn btn-primary" onclick="markSelectedAsRead(true)">Mark as Read</button>
+      <button class="btn btn-secondary" onclick="markSelectedAsRead(false)">Mark as Unread</button>
+      <!--<button class="btn btn-danger" onclick="deleteSelected()">Delete</button>-->
+    </div>
+
+    <table id="notifikasi" class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th>No</th>
+          <th><input type="checkbox" id="checkAll"> Read All</th>
+          <th>Read / Unread</th>
+          <th>Notifikasi</th>
+          <th>Waktu</th>
+          <th>Status</th>
+          <th>Option</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for i in notifications %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td><input type="checkbox" class="checkItem" data-id="{{ i.id }}"> 
+    
+          </td>
+          <td>
+            {% if user in i.read_by.all %}
+            <span class="badge badge-success">Read</span>
+            {% else %}
+            <span class="badge badge-secondary">Unread</span>
+            {% endif %}
+          </td>
+
+          <td>{{ i.user }} {{ i.verb }} <b>Data</b> pada {{ i.fitur }}</td>
+          <td>{{ i.created_at|timesince }} ago</td>
+          <td>
+
+            <span      
+              class="badge badge-{% if i.verb == 'validasi' %}success{% elif i.verb == 'menolak' or i.verb == 'menghapus' %}danger{% elif i.verb == 'mengubah' %}warning{% else %}secondary{% endif %}">
+              {{ i.verb|capfirst }}
+            </span>
+          </td>
+          <td>
+            <a href="{{ i.url }}" class="btn btn-primary btn-sm"><i class="fas fa-eye"></i></a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <!-- /.card-body -->
+</div>
+
+<script>
+  // Check/Uncheck all checkboxes
+  document.getElementById('checkAll').onclick = function () {
+    var checkboxes = document.getElementsByClassName('checkItem');
+    for (var checkbox of checkboxes) {
+      checkbox.checked = this.checked;
+    }
+  }
+
+  // Function to mark selected notifications as read/unread
+  function markSelectedAsRead(isRead) {
+    var checkboxes = document.querySelectorAll('.checkItem:checked');
+    checkboxes.forEach(function (checkbox) {
+      var id = checkbox.getAttribute('data-id');
+      fetch(`/mark-as-read/${id}/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': '{{ csrf_token }}'
+        },
+        body: JSON.stringify({ is_read: isRead })
+      }).then(response => {
+        if (response.ok) {
+          checkbox.closest('tr').querySelector('.badge').className = isRead ? 'badge badge-success' : 'badge badge-secondary';
+          checkbox.closest('tr').querySelector('.badge').textContent = isRead ? 'Read' : 'Unread';
+        } else {
+          console.error('Failed to update status');
+        }
+      });
+    });
+  }
+
+  /* Function to delete selected notifications
+  function deleteSelected() {
+    var checkboxes = document.querySelectorAll('.checkItem:checked');
+    checkboxes.forEach(function(checkbox) {
+      var id = checkbox.getAttribute('data-id');
+      fetch(`/delete-notification/${id}/`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': '{{ csrf_token }}'
+        }
+      }).then(response => {
+        if (response.ok) {
+          checkbox.closest('tr').remove();
+        } else {
+          console.error('Failed to delete notification');
+        }
+      });
+    });
+  }*/
+</script>
+{% endblock%}

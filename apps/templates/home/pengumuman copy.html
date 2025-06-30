@@ -1,0 +1,89 @@
+{% extends 'layouts/base_general.html' %}
+{% load static %}
+{% block content %}
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="row"> 
+        <div class="col-lg-12">
+        <h1 class="text-center">Berita</h1>
+      </div>
+<!--
+        <div class="input-group col-sm-3 ">
+        <form action="{% url 'sibindu:search_pengumuman' %}" method="get">
+        
+      
+        <input type="text" class="form-control" name="search" placeholder="Search" aria-label="Search">
+        <div class="input-group-append">
+            <button type="submit" class="btn btn-primary" >
+                <i class="fas fa-search fa-fw"></i>
+            </button>
+            <button type="reset" class="btn btn-secondary">Reset</button>
+        </div>
+      </form>
+    </div>
+-->
+    </div>
+    
+      <hr>
+
+      <ul class="list-group list-group-flush" id="berita-list">
+        {% for list in page_obj %}        
+        <div class="info-box">
+          <div class="info-box-icon bg-black">
+            <ul style="text-align: right;">
+              
+              <h3>M</h3>
+          
+              <b>{{ forloop.counter}}</b>
+         
+            </ul>
+          </div>
+          <div class="info-box-content">
+            <span class="info-box-text">{{list.pengumuman}}</span>
+            <span class="info-box-text" style="color: #00000056;;"> <i class="fa fa-clock"></i> {{list.tanggal}} WIB</span>
+            <a href="#" style="color: #A6192E;">Selengkapnya</a>
+          </div>
+        </div>
+
+        {% endfor %}
+      </ul>
+
+      <br>
+      <hr>
+
+      <div class="row">
+        <div class="col-lg-10">
+          <div class="dataTables_info" id="example2_info" role="status" aria-live="polite">Showing {{ page_obj.number }}
+            to {{ page_obj.paginator.num_pages }} of
+            {{ page_obj.paginator.num_pages }} entries.</div>
+        </div>
+        <div class="col-lg-2">
+          <div class="dataTables_paginate paging_simple_numbers pagination-sm" id="example2_paginate">
+            <ul class="pagination">
+              {% if page_obj.has_previous %}
+              <li class="paginate_button page-item previous" id="example2_previous"><a
+                  href="?page={{ page_obj.previous_page_number }}" aria-controls="example2" data-dt-idx="{{page_num }}"
+                  tabindex="0" class="page-link">Previous</a></li>
+              {% endif %}
+              {% for page_num in page_obj.paginator.page_range %}
+                <li class="paginate_button page-item {% if page_num == page_obj.number %}active{% endif %}"><a
+                    href="?page={{ page_num }}" aria-controls="example2" data-dt-idx=" {{page_num }}" tabindex="0"
+                    class="page-link">
+                    {{page_num }}</a></li>
+              {% endfor %}
+              {% if page_obj.has_next %}
+              <li class="paginate_button page-item next" id="example2_next"><a
+                  href="?page={{ page_obj.next_page_number }}" aria-controls="example2" data-dt-idx="{{page_num }}"
+                  tabindex="0" class="page-link">Next</a></li>
+              {% endif %}
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+{% endblock%}

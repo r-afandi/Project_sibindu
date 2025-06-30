@@ -1,0 +1,80 @@
+{% extends 'layouts/table.html' %}
+{% load crispy_forms_tags %}
+<!--Title-->
+{% block tableTitle %}
+Data Pakar
+{% endblock%}
+{% block itemCRUD %}
+
+    <a class="btn btn-success" href="{% url 'data_pakar:train_pakar'%}">
+        <i class="fa-solid fa-microchip"></i>
+        <span>Train Data </span>
+    </a>
+    <a class="btn btn-info" data-toggle="modal" data-target="#addModal" onclick="openAddModal('{{ data.id }}')">
+        <i class="fas fa-fw fa-plus"></i>
+        <span>Tambah Data </span>
+    </a>
+
+<!-- Add pakar Modal -->
+{% include 'expert/data_pakar/add_pakar.html' %}
+{% endblock%}
+{% block itemTitle %}
+<th>No</th>
+<th>Diagnosa Sistem</th>
+<th>Diagnosa Suspek</th>
+<th>Umur</th>
+<th>Alasan</th>
+{% for list in nama_tabel %}
+<th>{{list.nama}}</th>
+{% endfor%}
+<th>Opsi</th>
+{% endblock%}
+
+{% block itemData %}
+<td>{{ forloop.counter }}</td>
+<td>{{i.diagnosa_sistem}}</td>
+<td>{{i.diagnosa_suspek}}</td>
+<td>{{i.umur}}</td>
+<td>{{i.alasan}}</td>
+{% for j in i.gejala %}
+<td>{% if j == '1'%}
+    <span class="badge bg-danger">YA</span>
+    {% elif j == '2'%}
+    <span class="badge bg-success">TIDAK</span>
+    {% else %}
+    {{j}}
+{% endif %}
+</td>
+{% endfor %}
+
+<!-- Edit pakar Modal -->
+{% include 'expert/data_pakar/edit_pakar.html' %}
+<!-- Delete pakar Modal -->
+{% include 'expert/data_pakar/delete_pakar.html' %}
+<!-- js -->
+{% include 'expert/data_pakar/js_data_pakar.html' %}
+{% endblock%}
+<!--Modals-->
+{% block update %}
+
+<form id="save_pakar_form_{{ i.id }}" action="{% url 'data_pakar:input_pakar' i.id %}" method="post" style="display: none;">
+    {% csrf_token %}
+
+    <button type="submit">Simpan</button>
+
+</form>
+<a class="nav-link btn btn-primary" href="#" role="button" onclick="document.getElementById('save_pakar_form_{{ i.id }}').submit();">
+    <i class="fa fa-save" aria-hidden="true"></i>
+</a>
+  <button type="button" class="btn btn-warning"data-toggle="modal" data-target="#updateModal{{i.id}}" onclick="openEditModal('{{ i.id }}','{{ i.umur }}','{{i.diagnosa_sistem_id}}','{{i.diagnosa_sistem_id}}','{{i.alasan}}',{% for j in i.gejala %}'{{j}}', {% endfor%})">
+      <i class="fas fa-pencil-alt"></i>
+  </button>
+{% endblock%}
+
+{% block delete %}
+<button type="button" class="btn btn-danger " data-toggle="modal" data-target="#deleteModal{{i.id}}">
+    <i class="fas fa-trash-alt"></i>
+</button>
+{% endblock%}
+
+

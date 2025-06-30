@@ -1,0 +1,369 @@
+{% load static %}
+<!-- jQuery -->
+<script src="{% static 'assets/plugins/jquery/jquery.min.js' %}"></script>
+<!--popper-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="{% static 'assets/plugins/jquery-ui/jquery-ui.min.js' %}"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+  $.widget.bridge('uibutton', $.ui.button)
+</script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'assets/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'assets/plugins/bootstrap/js/bootstrap.min.js' %}"></script>
+<!-- ChartJS -->
+<script src="{% static 'assets/plugins/chart.js/Chart.min.js' %}"></script>
+<!-- FLOT CHARTS -->
+<script src="{% static 'assets/plugins/flot/jquery.flot.js'%}"></script>
+<!-- Sparkline -->
+<script src="{% static 'assets/plugins/sparklines/sparkline.js' %}"></script>
+<!-- jQuery Knob Chart -->
+<script src="{% static 'assets/plugins/jquery-knob/jquery.knob.min.js' %}"></script>
+<!-- daterangepicker -->
+<script src="{% static 'assets/plugins/moment/moment.min.js' %}"></script>
+<!-- Tempusdominus -->
+<script src="https://cdn.jsdelivr.net/npm/@eonasdan/tempus-dominus@6.7.16/dist/js/tempus-dominus.js"></script>
+<script>
+  const initDatePicker = (selector, options) => {
+    return new Promise((resolve, reject) => {
+      try {
+        new tempusDominus.TempusDominus(document.querySelector(selector), options);
+        resolve();
+      } catch (error) {
+        reject(error);
+      }
+    });
+  };
+
+  const initPickers = async () => {
+    try {
+      const isMobile = (window.matchMedia('(max-width: 768px)').matches ? false : true); // Define mobile breakpoint
+      await Promise.all([
+        initDatePicker('#addModal .datetimeinput', {
+          localization: {
+            locale: 'id-ID',
+            format: 'dd/MM/yyyy HH:mm',
+          },
+          display: {
+            sideBySide: isMobile,
+            components: {
+              hours: true,
+              minutes: true,
+              seconds: false,
+            },
+          },
+        }),
+        initDatePicker('#addModal .dateinput', {
+          localization: {
+            locale: 'id-ID',
+            format: 'dd/MM/yyyy',
+          },
+          display: {
+            components: {
+              calendar: true,
+              date: true,
+              month: true,
+              year: true,
+              hours: false,
+              minutes: false,
+              seconds: false,
+            },
+          },
+        }),
+        initDatePicker('#addModal .timeinput', {
+          localization: {
+            locale: 'id-ID',
+            format: 'HH:mm',
+          },
+          display: {
+            components: {
+              calendar: false,
+              date: false,
+              month: false,
+              year: false,
+              hours: true,
+              minutes: true,
+              seconds: false,
+            },
+          },
+        }),
+      ]);
+    } catch {
+
+    }
+  };
+  // Initialize the pickers after the DOM is ready
+  document.addEventListener('DOMContentLoaded', initPickers);
+  // Listen for screen size changes and update the sideBySide setting
+  window.addEventListener('resize', () => {
+    initPickers(); // Re-initialize pickers with updated sideBySide setting
+  });
+</script>
+<!-- fontawesome-->
+<script src="{% static 'assets/plugins/fontawesome-free-6.6.0-web/js/all.min.js' %}"></script>
+<!-- Summernote -->
+<script src="{% static 'assets/plugins/summernote/summernote-bs4.min.js' %}"></script>
+{% if 4 in group_id %}
+<script>
+  async function initializeSummernote() {
+    return new Promise((resolve) => {
+      $(document).ready(function () {
+        $('#id_artikel').summernote({
+          height: 300,
+          tooltip: false,
+          toolbar: [
+            ['misc', ['undo', 'redo']],
+            ['fontstyle', ['fontname', 'fontsize', 'fontsizeunit']],
+            ['style', ['bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript', 'clear']],
+            ['color', ['forecolor', 'backcolor']],
+            ['paragraph', ['style', 'ol', 'ul', 'paragraph', 'height']],
+            ['insert', ['fileupload', 'picture', 'link', 'video', 'table', 'hr']],
+            ['view', ['fullscreen', 'codeview', 'help']]
+          ],
+          fontNames: ['Arial', 'Courier New', 'Times New Roman', 'Verdana', 'Source Sans Pro'],
+          fontSizes: ['8', '9', '10', '11', '12', '14', '16', '18', '20', '24', '28', '32', '36', '48', '64', '72'],
+          buttons: {
+            fileupload: function (context) {
+              var ui = $.summernote.ui;
+              var button = ui.button({
+                contents: '<i class="fa-regular fa-folder-open"></i>',
+                tooltip: 'Upload File',
+                click: function () {
+                  // Buat input untuk file upload menggunakan FilePond
+                  var input = $('<input type="file"/>');
+                  input.trigger('click');
+                  input.change(function () {
+                    var file = this.files[0];
+                    if (file) {
+                      var formData = new FormData();
+                      formData.append("filepond", file);
+
+                      // Upload file ke FilePond server
+                      $.ajax({
+                        url: '/fp/process/',  // URL endpoint FilePond
+                        type: 'POST',
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function (response) {
+                          var fileURL = response.filepond;  // Dapatkan URL dari Django FilePond response
+                          context.invoke('editor.pasteHTML', `<a href="${fileURL}" target="_blank">${file.name}</a>`);
+                        },
+                        error: function () {
+                          alert('Gagal mengunggah file!');
+                        }
+                      });
+                    }
+                  });
+                }
+              });
+              return button.render();  // Render tombol custom untuk upload file
+            }
+          }
+        });
+      });
+    });
+  }
+
+  (async function () {
+    await initializeSummernote();
+  })();
+</script>
+{% endif %}
+<script>
+  async function initializeSummernote() {
+    return new Promise((resolve) => {
+      $(document).ready(function () {
+        $('#id_penanganan').summernote({
+          height: 300,
+          tooltip: false,
+          toolbar: [
+            ['misc', ['undo', 'redo']],
+            ['fontstyle', ['fontname', 'fontsize', 'fontsizeunit']],
+            ['style', ['bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript', 'clear']],
+            ['color', ['forecolor', 'backcolor']],
+            ['paragraph', ['style', 'ol', 'ul', 'paragraph', 'height']],
+            ['insert', ['fileupload', 'picture', 'link', 'video', 'table', 'hr']],
+            ['view', ['fullscreen', 'codeview', 'help']]
+          ],
+          fontNames: ['Arial', 'Courier New', 'Times New Roman', 'Verdana', 'Source Sans Pro'],
+          fontSizes: ['8', '9', '10', '11', '12', '14', '16', '18', '20', '24', '28', '32', '36', '48', '64', '72'],
+ 
+        });
+      });
+    });
+  }
+
+  initializeSummernote().then(() => {
+
+   
+    }
+    );
+
+</script>
+<!-- overlayScrollbars -->
+<script src="{% static 'assets/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js' %}"></script>
+<!-- AdminLTE App -->
+<script src="{% static 'assets/dist/js/adminlte.min.js' %}"></script>
+<!-- DataTables  & Plugins -->
+<script src="{% static 'assets/plugins/datatables/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+<script src="{% static 'assets/plugins/datatables-responsive/js/dataTables.responsive.min.js' %}"></script>
+<script src="{% static 'assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js' %}"></script>
+<script src="{% static 'assets/plugins/datatables-buttons/js/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'assets/plugins/datatables-buttons/js/buttons.bootstrap4.min.js' %}"></script>
+<script src="{% static 'assets/plugins/jszip/jszip.min.js' %}"></script>
+<script src="{% static 'assets/plugins/pdfmake/pdfmake.min.js' %}"></script>
+<script src="{% static 'assets/plugins/pdfmake/vfs_fonts.js' %}"></script>
+<script src="{% static 'assets/plugins/datatables-buttons/js/buttons.html5.min.js' %}"></script>
+<script src="{% static 'assets/plugins/datatables-buttons/js/buttons.print.min.js' %}"></script>
+<script src="{% static 'assets/plugins/datatables-buttons/js/buttons.colVis.min.js' %}"></script>
+<!-- SweetAlert2 -->
+<script src="{% static 'assets/plugins/sweetalert2/sweetalert2.min.js' %}"></script>
+<!-- Select2 -->
+<script src="{% static 'assets/plugins/select2/js/select2.full.min.js' %}"></script>
+
+<script>
+  $(document).ready(function () {
+    initializeSelectForAdd();
+    initializeSelect2ForAdd();
+
+  });
+
+  function initializeSelectForAdd() {
+    const addGroupsElement = document.querySelector('.select-bs4'); // Use querySelector for efficiency
+    $(addGroupsElement).select2({
+      theme: 'bootstrap4',
+      allowClear: true, // Allow clearing the selection
+      maximumSelectionLength: 1,
+    });
+  }
+  function initializeSelect2ForAdd() {
+    const addGroupsElement = document.querySelector('.select2-bs4'); // Use querySelector for efficiency
+    $(addGroupsElement).select2({
+      theme: 'bootstrap4',
+      allowClear: true, // Allow clearing the selection
+
+    });
+  }
+</script>
+
+<!-- Toastr -->
+<script src="{% static 'assets/plugins/toastr/toastr.min.js' %}"></script>
+<!-- News -->
+<script src="{% static 'assets/plugins/news/news.js' %}"></script>
+<!--Swipper-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.3.5/js/swiper.min.js"></script>
+<!--Carousel-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.js"></script>
+<!--table-->
+<script>
+  $(function () {
+    $("#example1").DataTable({
+      "responsive": true, "lengthChange": false, "autoWidth": false,
+      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": true,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+      "responsive": true
+    });
+    $('#news').DataTable({
+      "lengthChange": false,
+      "searching": true,
+      "info": true,
+      "autoWidth": false,
+      "responsive": true,
+    });
+    $('#notifikasi').DataTable({
+      "ordering": false,
+      "lengthChange": false,
+      "searching": true,
+      "info": true,
+      "autoWidth": false,
+      "responsive": true,
+    });
+  });
+
+</script>
+<!-- filepond -->
+<!-- include FilePond library -->
+<script src="{% static 'assets/plugins/jquery-filepond/filepond-plugin-image-preview.js' %}"></script>
+<!-- include FilePond plugins -->
+<script src="{% static 'assets/plugins/jquery-filepond/filepond.min.js' %}"></script>
+
+<!-- include FilePond validation -->
+<script src="{% static 'assets/plugins/jquery-filepond/filepond-plugin-file-validate-type.min.js' %}"></script>
+<script src="{% static 'assets/plugins/jquery-filepond/filepond-plugin-file-validate-size.min.js' %}"></script>
+<!-- include FilePond jQuery adapter -->
+<script src="{% static 'assets//plugins/jquery-filepond/filepond.jquery.js'%}"></script>
+<!--Filepons server -->
+<script>
+  // First register any plugins
+  $.fn.filepond.registerPlugin(FilePondPluginImagePreview, FilePondPluginFileValidateSize, FilePondPluginFileValidateType);
+
+  // Inisialisasi FilePond
+  $('.all-pond').filepond();
+  $('.all-pond').filepond({
+    allowFileSizeValidation: true,
+    maxFileSize: 2048000, // 2MB
+    allowFileTypeValidation: true,
+  });
+
+  $('.img-pond').filepond();
+  $('.img-pond').filepond({
+    allowFileSizeValidation: true,
+    maxFileSize: 2048000, // 2MB
+    allowFileTypeValidation: true,
+    acceptedFileTypes: ['image/*'],
+  });
+
+  $('.file-pond').filepond();
+  $('.file-pond').filepond({
+    allowFileSizeValidation: true,
+    maxFileSize: 2048000, // 2MB
+    allowFileTypeValidation: true,
+    acceptedFileTypes: ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'],
+  });
+
+  const token = "{{ csrf_token }}";
+  // Konfigurasikan FilePond dengan token CSRF
+  FilePond.setOptions({
+    server: {
+      url: '/fp',
+      process: '/process/',
+      patch: '/patch/',
+      revert: '/revert/',
+      restore: '/restore/',
+      fetch: '/fetch/?target=',
+      load: '/load/',
+
+      headers: {
+        'X-CSRFToken': token,
+      },
+    },
+  });
+</script>
+<script>
+  function confirmLogout() {
+    if (confirm("Apakah Anda ingin logout?")) {
+      document.getElementById('logout-form').submit();
+    }
+    // Jika tidak, tidak ada yang terjadi.
+  }
+</script>
+<script>
+  $(document).ready(function () {
+    setTimeout(function () {
+      $(".alert").alert('close');
+    }, 3000); // 3000 ms = 3 detik
+  });
+</script>
+
+<!-- dropzone -->
+<!--<script src="{% static 'assets/plugins/dropzone/min/dropzone.min.js' %}"></script>-->

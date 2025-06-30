@@ -1,0 +1,10 @@
+
+{% extends 'layouts/modals/delete.html' %}
+{% block label %}
+Delete Artikel
+{% endblock %}
+{% block action %}
+{% url 'artikel:delete_artikel' i.id %}
+{% endblock %}
+
+

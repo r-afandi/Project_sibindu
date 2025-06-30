@@ -1,0 +1,15 @@
+{% extends 'layouts/modals/update.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block label %}
+Update Artikel
+{% endblock %}
+{% block action %}
+{% url 'artikel:update_artikel' i.id  %}
+{% endblock %}
+{% block form %}
+{{ form|crispy }}
+{% endblock %}
+
+
+

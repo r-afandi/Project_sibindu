@@ -1,0 +1,37 @@
+{% extends 'layouts/table_diagnosa.html' %}
+<!--Title-->
+{% block tableTitle %}
+Biomarker
+{% endblock%}
+
+{% block itemTitle %}
+<th>No</th>
+<th>NIK</th>
+<th>Nama</th>
+{% for i in nama_tabel %}
+<th>{{i.nama}}</th>
+{% endfor%}
+<th>Opsi</th>
+{% endblock%}
+
+{% block itemData %}
+<td>{{ forloop.counter }}</td>
+<td>{{i.nik}}</td>
+<td>{{i.nama}}</td>
+{% for j in i.data_dalam %}
+<td>{{j}}</td>
+{% endfor%}
+
+<!-- Edit data_suspek Modal -->
+{% include 'expert/diagnosis/pengecekan_dalam/edit_pengecekan_dalam.html' %}
+<!-- Delete data_suspek Modal -->
+{% endblock%}
+{% block update %}
+  <button type="button" class="btn btn-warning"data-toggle="modal" data-target="#updateModal{{i.id}}" onclick="openEditModal('{{ i.id }}',{% for j in i.data_dalam %}'{{j}}', {% endfor%} )">
+      <i class="fas fa-pencil-alt"></i>
+  </button> 
+{% endblock%}
+
+{% block JS %}
+{% include 'expert/diagnosis/pengecekan_dalam/js_pengecekan_dalam.html' %}
+{% endblock%}

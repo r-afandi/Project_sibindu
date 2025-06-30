@@ -1,0 +1,96 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+{% block header %}
+
+{% include "includes/header_home.html" %}
+
+<body>
+
+    <!-- Navbar -->
+    {% include "includes/navbar_home.html" %}
+    <!-- /.navbar -->
+
+    {% endblock %}
+    <!-- Main content -->
+    <section class="content">
+        <!-- container-fluid -->
+
+        {% block content %}{% endblock content %}
+
+    </section>
+    <!-- /.content -->
+
+    <!-- /.content-wrapper -->
+    {% block footer %}
+    <!-- Footer Start -->
+    {% for item in about %}
+    <div class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6">
+                    <div class="footer-widget">
+                        <h3 class="title">Narahubung</h3>
+                        <div class="contact-info">
+                            <p><i class="fa fa-map-marker"></i>{{item.alamat}}</p>
+                            <p><i class="fa fa-envelope"></i>{{item.email}}</p>
+                            <p><i class="fa fa-phone"></i>{{item.telp}}</p>
+                            <div class="social">
+                                {% for list in item.sosmed %}
+                                {% if forloop.counter0|divisibleby:2 %}
+                                <a href="{{list}}" target="_blank">
+                                    {% else %}
+                                    <i class="fa-brands fa-{{list}}"></i>
+                                </a>
+                                {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <div class="footer-widget">
+                        <h3 class="title">{{item.nama}}</h3>
+                        <div class="newsletter">
+                            <p>
+                                {{item.tentang_footer}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    <!-- Footer End -->
+
+    <!-- Footer Bottom Start -->
+    <div class="footer-bottom">
+        <div class="container">
+            <div class="row" style="color: white;">
+                <div class="col-md-6 copyright">
+                    <strong>Copyright &copy; 2022-{% now 'Y' %} <a href="https://htmlcodex.com/">HTML Codex</a></strong>
+                </div>
+
+                <div class="col-md-6 template-by">
+                    <b>Version</b> 0.0.4
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer Bottom End -->
+
+    <!-- Back to Top -->
+    <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
+
+    </div>
+    <!-- ./wrapper -->
+    {% include "includes/scripts_home.html" %}
+</body>
+{% endblock %}
+
+</html>

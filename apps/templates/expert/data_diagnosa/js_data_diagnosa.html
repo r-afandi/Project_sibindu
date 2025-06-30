@@ -1,0 +1,55 @@
+<script>
+    function openAddModal() {
+        var modalId = "#addModal";
+
+    }
+    function openEditModal(id,kode, tipe,status_id,diagnosa, penanganan,{% for gejala in nama_tabel %}{{gejala.alias}},{% endfor%}) {
+
+        var modalId = "#updateModal" + id;
+
+        $(modalId).find("#id_kode").val(kode);
+        $(modalId).find("#id_tipe").val(tipe);
+        $(modalId).find("#id_status").val(status_id);
+        $(modalId).find("#id_diagnosa").val(diagnosa);
+        $(modalId).find("#id_penanganan").val(penanganan);
+        var gejala_fields = [{% for gejala in nama_tabel %}"{{gejala.alias}}",{% endfor%}]; // berisi ['Poliuri','Polidipsi','Polifagi','bb_turun','kortikosteroid','dexamethasone','methylprednisolone','berat_badan','sistoik','diastoik','gula_darah','asam_urat','kolesterol',]
+        var data=[{% for gejala in nama_tabel %}{{gejala.alias}},{% endfor%}]
+        
+        for(i=0;i<data.length;i++){
+            $(modalId).find("#id_"+gejala_fields[i]).val(data[i]); //value dari gejala_values[i] berisi 0 semua.seharusnya disesuaikan dengan gejala_values
+        }
+
+        async function initializeSummernote() {
+    return new Promise((resolve) => {
+      $(document).ready(function () {
+        $('#id_penanganan').summernote({
+          height: 300,
+          tooltip: false,
+          toolbar: [
+            ['misc', ['undo', 'redo']],
+            ['fontstyle', ['fontname', 'fontsize', 'fontsizeunit']],
+            ['style', ['bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript', 'clear']],
+            ['color', ['forecolor', 'backcolor']],
+            ['paragraph', ['style', 'ol', 'ul', 'paragraph', 'height']],
+            ['insert', ['fileupload', 'picture', 'link', 'video', 'table', 'hr']],
+            ['view', ['fullscreen', 'codeview', 'help']]
+          ],
+          fontNames: ['Arial', 'Courier New', 'Times New Roman', 'Verdana', 'Source Sans Pro'],
+          fontSizes: ['8', '9', '10', '11', '12', '14', '16', '18', '20', '24', '28', '32', '36', '48', '64', '72'],
+ 
+        });
+      });
+    });
+  }
+
+  initializeSummernote().then(() => {
+
+   
+    }
+    );
+
+        }
+    
+        
+</script>
+

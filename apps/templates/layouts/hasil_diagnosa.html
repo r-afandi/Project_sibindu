@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Print Hasil Diagnosa</title>
+</head>
+<body>
+    <embed src="data:application/pdf;base64,{{ base64_data }}" type="application/pdf">
+        {{ base64_data }}
+        <a href="data:application/pdf;base64,{{ base64_data }}" blank="true">Cetak PDF</a>
+</body>
+</html>

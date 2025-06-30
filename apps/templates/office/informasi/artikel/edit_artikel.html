@@ -1,0 +1,57 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class="col-12" id="updateModal{{artikel.id}}">
+    <h5 class="modal-title">Update artikel</h5>
+    <form method="post" action="{% url 'artikel:update_artikel' artikel.id %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="modal-body">
+            <div class="form-group">
+                {{ form|crispy }}
+            </div>
+        </div>
+        <div class="modal-footer"> <button type="button" class="btn btn-secondary"> <a
+                    href="{% url 'artikel:artikel' %}" style="color: white;">Kembali</a> </button>
+            <button type="submit" class="btn btn-primary">Simpan</button>
+        </div>
+    </form>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var validatorField = document.getElementById('id_validator');
+        var validasiField = document.getElementById('id_validasi');
+        var infoField = document.getElementById('id_info');
+        document.querySelectorAll("input,textarea,select").forEach(function (element) {
+            if (element.id !== "id_validasi" && element.id !== "id_validator" && element.id !== "id_info") {
+                element.addEventListener("change", function () {
+                    if (validasiField) validasiField.value = '';
+                    if (validatorField) validatorField.value = '';
+                    if (infoField) infoField.value = '';
+                });
+            }
+        });
+        if (validatorField) { validatorField.value = "{{ user.id }}"; }
+        var tanggalElement = document.getElementById('id_tanggal');
+        if (tanggalElement) {
+            new tempusDominus.TempusDominus(tanggalElement, {
+                localization: {
+                    locale: 'id-ID',
+                    format: 'dd/MM/yyyy HH:mm',
+                },
+                display: {
+                    components: {
+                        hours: true,
+                        minutes: true,
+                        seconds: false,
+                    },
+                },
+            });
+        }
+        else {
+            console.error('Element with ID "id_tanggal" not found.');
+        }
+    });
+</script>
+{% endblock %}

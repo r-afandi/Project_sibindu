@@ -1,0 +1,10 @@
+
+{% extends 'layouts/modals/delete.html' %}
+{% block label %}
+Delete Sumber Daya
+{% endblock %}
+{% block action %}
+{% url 'sdp:delete_data_sdp' i.id %}
+{% endblock %}
+
+

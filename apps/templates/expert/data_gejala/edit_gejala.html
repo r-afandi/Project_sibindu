@@ -1,0 +1,11 @@
+{% extends 'layouts/modals/update.html' %}
+{% load crispy_forms_tags %}
+{% block label %}
+Update Gejala
+{% endblock %}
+{% block action %}
+{% url 'diagnosa:update_gejala' i.id %}
+{% endblock %}
+{% block form %}
+{{form|crispy}}
+{% endblock %}

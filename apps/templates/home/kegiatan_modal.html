@@ -1,0 +1,41 @@
+<!-- Modal -->
+<div class="modal fade" id="kegiatanModal" tabindex="-1" role="dialog" aria-labelledby="kegiatanModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="kegiatanModalLabel"></h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" id="kegiatanContent">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" ></script>
+  <script>
+  $(document).ready(function() {
+      $('.detail-kegiatan').on('click', function(e) {
+          e.preventDefault();
+          let detail = $(this).data('id');
+          $.ajax({
+              url: '/kegiatan/' + detail + '/',
+              method: 'GET',
+              success: function(data) {
+                  $('#kegiatanModalLabel').text(data.nama);
+                  $('#kegiatanContent').html(`
+                      <p><strong>Tanggal:</strong> ${data.tanggal}</p>
+                      <p><strong>kegiatan:</strong></p>
+                      <p>${data.kegiatan}</p>
+                  `);
+                  $('#kegiatanModal').modal('show');
+              }
+          });
+      });
+  });
+  </script>

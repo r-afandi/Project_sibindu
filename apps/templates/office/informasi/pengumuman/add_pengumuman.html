@@ -1,0 +1,13 @@
+
+{% extends 'layouts/modals/add.html' %}
+{% load crispy_forms_tags %}
+{% block label %}
+Tambah Pengumuman
+{% endblock %}
+{% block action %}
+{% url 'pengumuman:add_pengumuman' %}
+{% endblock %}
+{% block form %}
+{{form | crispy }}
+{% endblock %}
+

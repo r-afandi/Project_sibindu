@@ -1,0 +1,14 @@
+{% extends 'layouts/modals_obj/update.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block label %}
+Update Aset
+{% endblock %}
+{% block action %}
+{% url 'sdp:update_sdp' i.obj.id %} 
+{% endblock %}
+{% block form %}
+{{ form|crispy }}
+{% endblock %}
+
+

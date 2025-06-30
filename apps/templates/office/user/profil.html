@@ -1,0 +1,13 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block content %}
+{% load crispy_forms_tags %}
+<form method="post" action="{% url 'user:update_profil'%}" enctype="multipart/form-data">
+  {% csrf_token %}
+  <div class="form-group">
+    {{ form | crispy }}
+  </div>
+  <button type="submit" class="btn btn-primary">Ubah</button>
+</form>
+{% endblock%}
+

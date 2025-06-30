@@ -1,0 +1,234 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block content %}
+
+{% include 'office/t_suspek_diagram.html' %}
+{% include 'office/t_data_sdp.html' %}
+{% include 'office/t_pengelolaan_sdp.html' %}
+
+<script>
+  $(function () {
+    $("#t_suspek").DataTable({
+      "responsive": true, "lengthChange": false, "autoWidth": false,
+      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+    }).buttons().container().appendTo('#t_suspek_wrapper .col-md-6:eq(0)');
+    $("#t_data_sdp").DataTable({
+      "responsive": true, "lengthChange": false, "autoWidth": false,
+      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+    }).buttons().container().appendTo('#t_data_sdp_wrapper .col-md-6:eq(0)');
+    $("#t_pengelolaan_sdp").DataTable({
+      "responsive": true, "lengthChange": false, "autoWidth": false,
+      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+    }).buttons().container().appendTo('#t_pengelolaan_sdp_wrapper .col-md-6:eq(0)');
+
+  });
+
+</script>
+
+<script>
+  console.log('{% for i in groups %}{{i.id}}, {% endfor%}');
+  $(document).ready(function() {
+
+      var color = ['#f56954', '#f39c12', '#00a65a', '#00c0ef', '#3c8dbc', '#d2d6de'];
+      var labelTotal = [{% for i in diagnosa %} '{{ i.label }}', {% endfor %}];
+      var dataTotal = [6,2,96,6,2,96];
+      var labels = ['', '20th', '22nd', '24th', '26th', '28th', '30th'];
+      var datasets = [
+          {
+              type: 'line',
+              label: ' Diabetes',
+              data: [0,3,3],
+              backgroundColor: 'transparent',
+              borderColor: '#f56954',
+              pointBorderColor: '#f56954',
+              pointBackgroundColor: '#f56954',
+              fill: false
+          },
+          {
+              type: 'line',
+              label: 'Prediabetes',
+              data: [0,1,1],
+              backgroundColor: 'transparent',
+              borderColor: '#f39c12',
+              pointBorderColor: '#f39c12',
+              pointBackgroundColor: '#f39c12',
+              fill: false
+          },
+          {
+              type: 'line',
+              label: 'Normal',
+              data: [0,46,46],
+              backgroundColor: 'transparent',
+              borderColor: '#00a65a',
+              pointBorderColor: '#00a65a',
+              pointBackgroundColor: '#00a65a',
+              fill: false
+          },
+          
+      ];
+     // var datasets = [];
+    /*  for (var i = 0; i < labelTotal.length && i < color.length; i++) {
+          datasets.push({
+              type: 'line',
+              label: labelTotal[i],
+              data: dataTotal.map((total, index) => total), // assuming this is how you want to map your data
+              backgroundColor: 'transparent',
+              borderColor: color[i],
+              pointBorderColor: color[i],
+              pointBackgroundColor: color[i],
+              fill: false
+          });
+      }*/
+      console.log('datasets:', datasets);
+
+      var $visitorsChart = $('#totalChart');
+      var visitorsChart = new Chart($visitorsChart, {
+          data: {
+              labels: labels,
+              datasets: datasets
+          },
+          options: {
+              maintainAspectRatio: false,
+              tooltips: {
+                  mode: 'index',
+                  intersect: false
+              },
+              hover: {
+                  mode: 'index',
+                  intersect: false
+              },
+              legend: {
+                  display: true
+              },
+              scales: {
+                  yAxes: [{
+                      gridLines: {
+                          display: true,
+                          lineWidth: '4px',
+                          color: 'rgba(0, 0, 0, .2)',
+                          zeroLineColor: 'transparent'
+                      },
+                      ticks: {
+                          beginAtZero: true,
+                          suggestedMax: 200,
+                          callback: function(value) {
+                              if (Number.isInteger(value)) {
+                                  return value;
+                              }
+                          }
+                      }
+                  }],
+                  xAxes: [{
+                      display: true,
+                      gridLines: {
+                          display: true
+                      },
+                      ticks: {
+                          autoSkip: true
+                      }
+                  }]
+              }
+          }
+      });
+  });
+</script>
+
+<script>
+  $(function () {
+
+
+
+    /* ChartJS
+    * -------
+    * Here we will create a few charts using ChartJS
+    */
+    //-------------
+    //- PIE CHART -
+    //-------------
+    // Get context with jQuery - using jQuery's .get() method.
+  var color = ['#f56954', '#f39c12', '#00a65a', '#00c0ef', '#3c8dbc', '#d2d6de'];
+  var labelTotal = [{% for i in diagnosa %} '{{i.label}}', {% endfor %}];
+  var dataTotal = [{% for i in diagnosa %} {{ i.baru }}, {% endfor %}];
+  var labelLk = [{% for i in hasil.1 %} '{{i.label}}', {% endfor %}];
+  var dataLk = [{% for i in hasil.1 %}{{ i.baru }}, {% endfor %}];
+  var labelPr = [{% for i in hasil.2 %} '{{i.label}}', {% endfor %}];
+  var dataPr = [{% for i in hasil.2 %}{{ i.baru }}, {% endfor %}];
+  var pieChartTotal = $('#pieTotal').get(0).getContext('2d');
+  var pieChartLk = $('#pieLk').get(0).getContext('2d');
+  var pieChartPr = $('#piePr').get(0).getContext('2d');
+  var pieTotal = {
+    labels: labelTotal,
+
+    datasets: [
+      {
+        data: dataTotal,
+        backgroundColor: color,
+      }
+    ]
+  }
+  var pieLk = {
+    labels: labelLk,
+
+    datasets: [
+      {
+        data: dataLk,
+        backgroundColor: color,
+      }
+    ]
+  }
+  var piePr = {
+    labels: labelPr,
+
+    datasets: [
+      {
+        data: dataPr,
+        backgroundColor: color,
+      }
+    ]
+  }
+  var pieOptions = {
+    legend: {
+      display: true
+    }
+  }
+  //Create pie or douhnut chart
+  // You can switch between pie and douhnut using the method below.
+  var pieTotal = new Chart(pieChartTotal, {
+    type: 'doughnut',
+    data: pieTotal,
+    options: pieOptions
+  })
+  var pieLk = new Chart(pieChartLk, {
+    type: 'doughnut',
+    data: pieLk,
+    options: pieOptions
+  })
+  var piePr = new Chart(pieChartPr, {
+    type: 'doughnut',
+    data: piePr,
+    options: pieOptions
+  })
+
+  //-----------------
+  //- END PIE CHART -
+  //-----------------
+
+  /* jVector Maps
+  * ------------
+  * Create a world map with markers
+  */
+  $('#world-map-markers').mapael({
+    map: {
+      name: "usa_states",
+      zoom: {
+        enabled: true,
+        maxLevel: 10
+      },
+    },
+  }
+  );
+
+
+})
+</script>
+{% endblock content %}

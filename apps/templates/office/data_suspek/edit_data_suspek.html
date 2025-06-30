@@ -1,0 +1,11 @@
+{% extends 'layouts/modals/update.html' %}
+{% load crispy_forms_tags %}
+{% block label %}
+Update Data Suspek
+{% endblock %}
+{% block action %}
+{% url 'data_suspek:update_suspek' i.id %}
+{% endblock %}
+{% block form %}
+{{ form|crispy }}
+{% endblock %}

@@ -1,0 +1,13 @@
+
+{% extends 'layouts/modals/update.html' %}
+{% load crispy_forms_tags %}
+{% block label %}
+Update Wilayah Kerja
+{% endblock %}
+{% block action %}
+{% url 'user:update_wilayah_kerja' i.id %}
+{% endblock %}
+{% block form %}
+{{form | crispy }}
+{% endblock %}
+

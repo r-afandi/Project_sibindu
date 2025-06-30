@@ -1,0 +1,27 @@
+{% load static %}
+<script>
+    // Menampilkan modal Update Form saat tombol diklik
+    $('#updateModal{{i.id}}').click(function () {
+        $('updateModal{{ i.id }}').modal('show');
+    });
+
+    // Handle pengiriman form Update
+    $('#example1').submit(function (e) {
+        e.preventDefault(); // Menghentikan pengiriman form
+        var formData = $(this).serialize(); // Mengambil data form
+
+        // Lakukan permintaan AJAX untuk mengirim form ke server
+        $.ajax({
+            url: 'expert/data_diagnosa/edit_diagnosa', // Ganti dengan URL yang sesuai
+            type: 'POST',
+            data: formData,
+            success: function (response) {
+                // Manipulasi tampilan atau lakukan apa yang perlu Anda lakukan setelah update berhasil
+                $('updateModal{{ i.id }}').modal('hide'); // Menutup modal setelah update berhasil
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    });
+</script>

@@ -1,0 +1,12 @@
+<script>
+  // update    
+function openEditModal(id,{% for list in nama_tabel %}{{list}},{% endfor%}) {
+var modalId = "#updateModal" + id;
+var gejala_fields = [{% for gejala in nama_tabel %}'{{gejala}}',{% endfor%}]; // berisi ['Poliuri','Polidipsi','Polifagi','bb_turun','kortikosteroid','dexamethasone','methylprednisolone','berat_badan','sistoik','diastoik','gula_darah','asam_urat','kolesterol',]
+data=[{% for list in nama_tabel %}{{list}},{% endfor%}]
+for(i=0;i<data.length;i++){
+    $(modalId).find("#id_"+gejala_fields[i]).val(data[i]); //value dari gejala_values[i] berisi 0 semua.seharusnya disesuaikan dengan gejala_values
+
+}
+}
+</script>

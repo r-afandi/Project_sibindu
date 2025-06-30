@@ -1,0 +1,55 @@
+{% extends 'layouts/table.html' %}
+{% load static %}
+<!--Title-->
+{% block tableTitle %} Tentang {% endblock%}
+<!--Modals-->
+{% block itemCRUD %}
+<!-- Add artikel Modal -->
+<div type="button" data-toggle="modal" data-target="#addModal" >
+    <a class="btn btn-info">
+        <i class="fas fa-fw fa-plus"></i>
+        <span>Tambah Data </span>
+    </a>
+</div>
+{% include 'office/profil/add_profil.html' %}
+{% include 'office/profil/js_profil.html' %}
+{% endblock%}
+{% block itemTitle %}
+<th>No</th>
+<th>Nama Depan</th>
+<th>Nama Belakang</th>
+<th>Email</th>
+<th>Username</th>
+<th>password</th>
+<th>Aktor</th>
+<th>Status</th>
+<th>Terakhir Login</th>
+<th>opsi</th>
+{% endblock%}
+{% block itemData %}
+<td>{{ forloop.counter }}</td>
+<td>{{i.first_name}}</td>
+<td>{{i.last_name}}</td>
+<td>{{i.email}}</td>
+<td>{{i.username}}</td>
+<td>{{i.password}}</td>
+<td>{{ i.aktor }} </td>
+<td>{{i.is_active}}</td>
+<td>{{i.last_login}}</td>
+<!-- Edit about Modal -->
+{% include 'office/profil/edit_profil.html' %}
+<!-- Delete profil Modal -->
+{% include 'office/profil/delete_profil.html' %}
+
+{% endblock%}
+{% block update %}
+  <button type="button" class="btn btn-warning"data-toggle="modal" data-target="#updateModal{{i.id}}" onclick="openEditModal('{{ i.id }}','{{i.first_name}}','{{i.last_name}}','{{i.email}}','{{i.username}}','{{i.password}}','{{ i.aktor.id }}','{{i.is_active}}')" >
+      <i class="fas fa-pencil-alt"></i>
+  </button>
+{% endblock%}
+
+{% block delete %}
+<button type="button" class="btn btn-danger " data-toggle="modal" data-target="#deleteModal{{i.id}}">
+    <i class="fas fa-trash-alt"></i>
+</button>
+{% endblock%}f

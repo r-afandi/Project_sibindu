@@ -1,0 +1,41 @@
+{% extends 'layouts/base_home.html' %}
+{% load static %}
+{% block title %}Sibindu{% endblock %}
+{% block content %}
+<!-- Top News Start-->
+<div class="top-news">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 tn-right">
+        <div class="row">
+          <div class="sn-content">
+            <h3>Kecenderungan: {{ diagnosis }}</h3>
+            <h3>Penanganan:</h3>
+            {% for gejala_penanganan in penanganan %}
+                <h4>{{ gejala_penanganan}}</h4>
+                <ul>
+                {% for item in gejala_penanganan %}
+                    <li>{{ item }}</li>
+                {% endfor %}
+                </ul>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 tn-left">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="tn-img">
+              <img src="{% static 'home/img/news-350x223-1.jpg' %}" />
+              <div class="tn-title">
+                <a href="">Lorem ipsum dolor sit amet</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Top News End-->
+{% endblock%}

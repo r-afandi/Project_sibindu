@@ -1,0 +1,50 @@
+{% extends 'layouts/base_home.html' %}
+{% load static %}
+{% block title %}Sibindu{% endblock %}
+{% block content %}
+<!-- Tab News Start -->
+<div class="tab-news">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Pengumuman</h2>
+                <div class="tab-content">
+                    <div class="container">
+                        {% for item in page_obj %}
+                        <div class="tn-news">
+                            <div class="tn-week">
+                                <h1 style="color: white;">{{ item.month }} <h3 style="color: white;">{{ item.day }}</h3></h1>
+                            </div>
+                            <div class="tn-title">
+                                <a href="#" class="detail-pengumuman" data-id="{{ item.id }}" data-toggle="modal" data-target="#pengumumanModal" style="font-weight:bold;">{{ item.judul }}</a>
+                                <p></p>
+                                <p><i class="fas fa-calendar"></i> {{ item.tanggal }} | <i class="fas fa-clock"></i> {{ item.waktu }} | <i class="fas fa-map-marker"></i> {{ item.tempat }}</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="pagination">
+                        {% if page_obj.has_previous %}
+                        <a href="?page={{ page_obj.previous_page_number }}" class="prev">Previous</a>
+                        {% endif %}
+
+                        {% for num in page_obj.paginator.page_range %}
+                        {% if page_obj.number == num %}
+                        <a href="?page={{ num }}" class="active">{{ num }}</a>
+                        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                        <a href="?page={{ num }}">{{ num }}</a>
+                        {% endif %}
+                        {% endfor %}
+
+                        {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}" class="next">Next</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include 'home/pengumuman_modal.html' %}
+{% endblock%}

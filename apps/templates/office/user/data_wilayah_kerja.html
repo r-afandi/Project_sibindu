@@ -1,0 +1,51 @@
+{% extends 'layouts/table.html' %}
+{% load static %}
+
+<!-- Title -->
+{% block tableTitle %}Wilayah Kerja{% endblock%}
+
+<!-- Modals -->
+{% block itemCRUD %}
+    <a class="btn btn-info" data-toggle="modal" data-target="#addModal">
+        <i class="fas fa-fw fa-plus"></i>
+        <span>Tambah Data  </span>
+    </a>
+{% include 'office/user/add_wilayah_kerja.html' %}
+{% include 'office/user/js_wilayah_kerja.html' %}
+{% endblock %}
+
+<!-- Table Header -->
+{% block itemTitle %}
+<th>No</th>
+<th>Wilayah Kerja</th>
+<th>Created_at</th>
+<th>Updated_at</th>
+<th>Opsi</th>
+{% endblock %}
+
+<!-- Table Data -->
+{% block itemData %}
+<td>{{ forloop.counter }}</td>
+<td>{{ i.wilayah_kerja }}</td>
+<td>{{ i.created_at }}</td>
+<td>{{ i.updated_at }}</td>
+
+{% include 'office/user/edit_wilayah_kerja.html' %}
+{% include 'office/user/delete_wilayah_kerja.html' %}
+{% endblock %}
+
+<!-- Update Button -->
+{% block update %}
+<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#updateModal{{ i.id }}" onclick="openEditModal('{{ i.id }}', '{{ i.wilayah_kerja }}', '{{ i.created_at }}', '{{ i.updated_at }}')">
+    <i class="fas fa-pencil-alt"></i>
+</button>
+
+{% endblock %}
+
+<!-- Delete Button -->
+{% block delete %}
+<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal{{ i.id }}">
+    <i class="fas fa-trash-alt"></i>
+</button>
+
+{% endblock %}

@@ -1,0 +1,10 @@
+
+{% extends 'layouts/modals/delete.html' %}
+{% block label %}
+Delete Data Suspek
+{% endblock %}
+{% block action %}
+{% url 'diagnosis:registrasi:delete_registrasi' i.id %}
+{% endblock %}
+
+

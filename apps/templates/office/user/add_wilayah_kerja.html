@@ -1,0 +1,13 @@
+
+{% extends 'layouts/modals/add.html' %}
+{% load crispy_forms_tags %}
+{% block label %}
+Tambah Wilayah Kerja
+{% endblock %}
+{% block action %}
+{% url 'user:add_wilayah_kerja' %}
+{% endblock %}
+{% block form %}
+{{form | crispy}}
+{% endblock %}
+

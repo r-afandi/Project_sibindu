@@ -1,0 +1,38 @@
+{% extends 'layouts/table_diagnosa.html' %}
+<!--Title-->
+{% block tableTitle %}
+Antropometri
+{% endblock%}
+
+{% block itemTitle %}
+<th>No</th>
+<th>NIK</th>
+<th>Nama</th>
+<th>Alamat</th>
+{% for i in nama_tabel %}
+<th>{{i.nama}}</th>
+{% endfor%}
+<th>Opsi</th>
+{% endblock%}
+
+{% block itemData %}
+<td>{{ forloop.counter }}</td>
+<td>{{i.nik}}</td>
+<td>{{i.nama}}</td>
+<td>{{i.alamat}}</td>
+{% for j in i.data_luar %}
+<td>{{j}}</td>
+{% endfor%}
+<!-- Edit data_suspek Modal -->
+{% include 'expert/diagnosis/pengecekan_luar/edit_pengecekan_luar.html' %}
+
+{% endblock%}
+{% block update %}
+  <button type="button" class="btn btn-warning"data-toggle="modal" data-target="#updateModal{{i.id}}" onclick="openEditModal('{{ i.id }}',{% for j in i.data_luar %} '{{j}}', {% endfor%} )">
+      <i class="fas fa-pencil-alt"></i>
+  </button>
+{% endblock%}
+
+{% block JS %}
+{% include 'expert/diagnosis/pengecekan_luar/js_pengecekan_luar.html' %}
+{% endblock%}

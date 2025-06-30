@@ -1,0 +1,73 @@
+{% load static %}
+{% csrf_token as token %}
+<!-- Navbar -->
+<nav class="main-header navbar navbar-expand navbar-white navbar-light">
+  <!-- Left navbar links -->
+  <ul class="navbar-nav">
+    <li class="nav-item">
+      <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+    </li>
+
+  </ul>
+
+  <!-- Right navbar links -->
+  <ul class="navbar-nav ml-auto">
+    <li class="nav-item dropdown show">
+      <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="true">
+        <i class="fa-regular fa-bell"></i>
+        <span class="badge badge-danger navbar-badge ">{{jumlah}}</span>
+      </a>
+      <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="left: inherit; right: 0px;">
+        {% for i in notifications|slice:":5" %}
+        
+          <div class="media">
+            <div class="media-body">
+              <h3 class="dropdown-item-title">
+                
+                <a href="{{ i.url }}" style="text-decoration-color: black;"><b>{{i.fitur}}</b></a>
+				<span class="float-right text-sm text-{% if i.verb == 'validasi' %}success{% elif i.verb == 'menolak' or i.verb == 'menghapus'%}danger{% elif i.verb == 'mengubah' %}warning{% else %}secondary{% endif %}"><i class="fas fa-star"></i></span>
+              </h3>
+              <p class="text-sm">{{i.user}} {{i.verb}} <b>Data</b> pada <b> {{i.fitur}}</b> </p>
+              <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> {{ i.created_at|timesince }} ago</p> <!--   -->
+            </div>
+          </div>
+        
+        <div class="dropdown-divider"></div>
+      {% endfor%}
+        <div class="dropdown-divider"></div>
+        <a href="{% url 'notifikasi'%}" class="dropdown-item dropdown-footer">See All Notifications</a>
+      </div>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-widget="fullscreen" href="#" role="button">
+        <i class="fas fa-expand-arrows-alt"></i>
+      </a>
+    </li>
+    <li class="nav-item dropdown">
+      <form id="logout-form" action="{% url 'sibindu:logout' %}" method="post" style="display: none;">
+          {% csrf_token %}
+          <button type="submit">Logout</button>
+      </form>
+      
+      <a class="nav-link" href="#" role="button" onclick="confirmLogout(event);">
+        <i class="fa fa-power-off" aria-hidden="true"></i>
+    </a>
+  </li>
+  
+  </ul>
+  <script>
+    function confirmLogout(event) {
+        event.preventDefault(); // Mencegah link dari mengarahkan halaman
+
+        // Tampilkan konfirmasi logout
+        if (confirm('Apakah Anda ingin logout?')) {
+            // Jika pengguna memilih 'Ya', kirimkan formulir logout
+            document.getElementById('logout-form').submit();
+        } else {
+            // Jika pengguna memilih 'Tidak', tidak melakukan apa-apa
+            alert('Logout dibatalkan.');
+        }
+    }
+  </script>
+</nav>
+<!-- /.navbar -->

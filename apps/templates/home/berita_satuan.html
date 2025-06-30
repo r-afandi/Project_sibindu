@@ -1,0 +1,41 @@
+{% extends 'layouts/base_home.html' %}
+{% load static %}
+{% block title %}Sibindu{% endblock %}
+{% block content %}
+        <!-- Single News Start-->
+        <div class="single-news">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        {% for item in artikel_id %}
+                        <div class="sn-container">                            
+                            <div class="sn-img" style="width: 60%; height: auto; margin: 0 auto; text-align: center;">
+                                <img src="{{ item.gambar.url }}" style="display: block; margin: 0 auto;" alt="{{ item.judul}}" />
+                            </div>                            
+                            <div class="sn-content">
+                                <h1 class="sn-title">{{ item.judul}}</h1>
+                                {{ item.artikel |safe }}
+                                <strong>({{item.petugas}})</strong>
+                            </div>                            
+                        </div>
+                        {% endfor%}
+                        <div class="sn-related">
+                            <h2>Artikel Lainnya</h2>
+                            <div class="row sn-slider">
+                                {% for item in artikel %}
+                                <div class="col-md-12">
+                                    <div class="sn-img">
+                                        <img src="{{ item.gambar.url }}" alt="{{item.judul}}"/>
+                                        <div class="sn-title">
+                                            <a href="/artikel_satuan/{{item.id}}">{{item.judul}}</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor%}
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+        <!-- Single News End--> 
+{% endblock%}

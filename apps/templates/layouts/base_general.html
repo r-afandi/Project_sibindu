@@ -1,0 +1,70 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  {% block header %}   
+<head>
+  <!-- css -->
+  {% include "includes/header.html" %}
+  <body class="hold-transition sidebar-mini layout-fixed">
+  
+    <!-- Preloader -->
+    <div class="preloader flex-column justify-content-center align-items-center">
+      <img class="animation__shake" src="{% static 'ico/sibindu.min.png' %}" alt="AdminLTELogo" height="60" width="60">
+    </div>
+
+  <!-- Navbar -->
+  {% include "includes/navbar_general.html" %}
+  <!-- /.navbar -->
+
+  {% endblock %}
+    <!-- Main content -->
+    <section class="content">
+      <!-- container-fluid -->
+      <div class="container-fluid">
+
+        {% block content %}{% endblock content %}
+      </div>
+
+      
+    </section>
+    <!-- /.content -->
+</div>
+  <!-- /.content-wrapper -->
+  {% block footer %}
+  {% for item in about %}
+  <footer class="main-footer" style="background-color: black; margin-left: 0cm; margin-bottom: 0cm;" >
+    <!-- To the right -->
+    <div class="row">
+      <div class="col-sm">
+        <H5>Ikuti Kami:</H5>
+        <p></p>
+          <ul class="list-inline mb-0">
+            {% for list in item.kontak %}
+            {% if forloop.counter0|divisibleby:2 %}
+              <li class="list-inline-item">
+                <a target="_blank" rel="noopener noreferrer" href="{{list}}" data-toggle="tooltip" style="color: white;">
+                  {% else %} 
+                  <i class="fab fa-{{list}}"></i>
+              </a>
+              </li> 
+              {% endif %}          
+          {% endfor %}
+          
+          </ul>
+      </div>
+      <div class="col-sm">
+        <H5> <strong>{{item.nama}}</strong></H5>
+        <p style="text-align: justify;">{{item.tentang_footer}}</p>
+      </div>
+    </div>
+  </footer>
+  {% endfor %}
+</div>
+<!-- ./wrapper -->
+<!--Script Assets-->
+{% include "includes/scripts.html" %}
+</body>
+{% endblock %}
+</html>
+

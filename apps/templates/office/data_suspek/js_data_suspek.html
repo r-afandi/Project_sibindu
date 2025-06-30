@@ -1,0 +1,82 @@
+<script>
+
+
+  // Fungsi untuk membuka modal dan mengisi nilai awal
+  function openEditModal(id, tanggal, nik, nama, genderId, alamat, umur, diagnosaId, petugasId, {% for item in nama_tabel %}{{ item }},{% endfor %}) {
+    console.log('tanggal:', tanggal);
+    var modalId = "#updateModal" + id;
+    $(modalId).find("#id_tanggal").val(tanggal);
+    $(modalId).find("#id_nik").val(nik);
+    $(modalId).find("#id_nama").val(nama);
+    $(modalId).find("#id_gender").val(genderId);
+    $(modalId).find("#id_alamat").val(alamat);
+    $(modalId).find("#id_umur").val(umur);
+    $(modalId).find("#id_diagnosa").val(diagnosaId);
+
+    console.log('user_id:', '{{ user.id }}');
+    if (isNaN(diagnosaId)) {
+      $(modalId).find("#id_penanganan").val('');
+    }
+    var fields = [{% for item in nama_tabel %}'{{ item }}',{% endfor %}];
+    var data = [{% for item in nama_tabel %}{{ item }},{% endfor %}];
+
+    console.log('Data sebelum diset ke form:', data);
+
+    if (fields.length === data.length) {
+      for (var i = 0; i < data.length; i++) {
+        $(modalId).find("#id_" + fields[i]).val(data[i]);
+        console.log('#id_', fields[i], data[i]);
+      }
+    } else {
+      console.warn('Panjang fields dan data tidak sama!');
+    }
+
+    // Event listener untuk menghitung IMT saat tb atau bb diubah
+    $(modalId).find("#id_tb, #id_bb").off('input').on('input', function() {
+      calculateIMT(modalId);
+    });
+
+    // Event listener untuk menghitung IMT saat tombol "Simpan" diklik
+    $(modalId).find(".save-button").off('click').on('click', function() {
+      calculateIMT(modalId);
+    });
+
+    // Inisialisasi Tempus Dominus
+    new tempusDominus.TempusDominus(
+      document.querySelector('#updateModal' + id + ' #id_tanggal'), {
+        localization: {
+          locale: 'id-ID',
+          format: 'dd/MM/yyyy'
+        },
+        display: {
+          components: {
+            useTwentyfourHour: false,
+            calendar: true,
+            date: true,
+            month: true,
+            year: true,
+            hours: false,
+            minutes: false,
+            seconds: false
+          }
+        }
+      }
+    );
+  }
+
+  // Fungsi untuk menghitung IMT
+  function calculateIMT(modalId) {
+    var tb = parseFloat($(modalId).find("#id_tb").val()); // Tinggi badan dalam cm
+    var bb = parseFloat($(modalId).find("#id_bb").val()); // Berat badan dalam kg
+    var meter = tb / 100; // Konversi tinggi badan ke meter
+    var imt = 0;
+
+    if (tb > 0 && bb > 0) {
+      imt = (bb / (meter * meter)).toFixed(1); // Perhitungan IMT
+      $(modalId).find("#id_imt").val(imt); // Set nilai IMT pada input
+      console.log('IMT berhasil dihitung:', imt); // Debug: menampilkan hasil IMT
+    } else {
+      console.log('Nilai TB atau BB tidak valid:', tb, bb); // Debug jika TB atau BB tidak valid
+    }
+  }
+</script>

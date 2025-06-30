@@ -1,0 +1,62 @@
+<script>
+    //add 
+
+    function openAddModal(id, upload_id) {
+        var modalId = "#addModal";
+        $(modalId).find("#id_petugas").val(id);
+       
+    };
+
+    //Update
+    function openEditModal(id, nama, tanggal, kegiatan, upload, validasiId, info, petugasId, validatorId) {
+        var modalId = "#updateModal" + id;
+        var validatorField = $(modalId).find("#id_validator");
+        var validasiField = $(modalId).find("#id_validasi");
+        var infoField = $(modalId).find("#id_info");
+        $(modalId).find("#id_nama").val(nama);
+        $(modalId).find("#id_tanggal").val(tanggal);
+        $(modalId).find("#id_kegiatan").val(kegiatan);
+        $(modalId).find("#id_upload").val(upload);
+        $(modalId).find("#id_petugas").val(petugasId);
+        $(modalId).find("#id_info").val(info);
+        $(modalId).find("#id_validasi").val(validasiId)
+        $(modalId).find("#id_validator").val(validatorId);
+       // Event listener untuk perubahan pada field selain validasi dan validator
+        $(modalId).find("input,textarea, select").not("#id_validasi, #id_validator, #id_info").on("change", function () {
+            validasiField.val('');
+            validatorField.val('');
+            infoField.val('');
+        });
+
+        $(modalId).find("#id_validasi").on("change", function () {
+                var validasiId = $(this).val();
+                if (validasiId == 1 || validasiId == 2) {
+                    $(modalId).find("#id_validator").val('{{user.id}}');
+                } else if (validasiId == '') {
+                    $(modalId).find("#id_validator").val('');
+                }
+                else {
+                    $(modalId).find("#id_validator").val(validatorId);
+                }
+            });
+ 
+    // Your Tempus Dominus initialization code here
+    new tempusDominus.TempusDominus(
+        document.querySelector('#updateModal' + id + ' #id_tanggal'),  // Ganti 'updateModal'+id dengan '#updateModal' + id + ' #id_tanggal'
+        {
+            localization: {
+                locale: 'id-ID',
+                format: 'dd/MM/yyyy HH:mm',
+            },
+            display: {
+                components: {
+                    hours: true,
+                    minutes: true,
+                    seconds: false,
+                },
+            },
+        }
+    );
+
+    }  
+</script>

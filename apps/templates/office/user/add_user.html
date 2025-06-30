@@ -1,0 +1,13 @@
+
+{% extends 'layouts/modals/add.html' %}
+{% load crispy_forms_tags %}
+{% block label %}
+Tambah User
+{% endblock %}
+{% block action %}
+{% url 'user:add_user' %}
+{% endblock %}
+{% block form %}
+{{form | crispy}}
+{% endblock %}
+

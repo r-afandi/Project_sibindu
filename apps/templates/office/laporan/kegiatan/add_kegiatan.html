@@ -1,0 +1,14 @@
+
+{% extends 'layouts/modals/add.html' %}
+{% load crispy_forms_tags %}
+{% block label %}
+Tambah Kegiatan
+{% endblock %}
+{% block action %}
+{% url 'kegiatan:add_kegiatan' %}
+{% endblock %}
+{% block form %}
+{{ form|crispy }}
+{% endblock %}
+
+

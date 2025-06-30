@@ -1,0 +1,55 @@
+{% extends 'layouts/table.html' %}
+{% load static %}
+<!--Title-->
+{% block tableTitle %} Pengumuman {% endblock%}
+{% block itemCRUD %}
+<!-- Add pengumuman Modal -->
+
+    <a class="btn btn-info" data-toggle="modal" data-target="#addModal" onclick="openAddModal('{{ user.id }}')">
+        <i class="fas fa-fw fa-plus"></i>
+        <span>Tambah Data</span>
+    </a>
+{% include 'office/informasi/pengumuman/add_pengumuman.html' %}
+{% include 'office/informasi/pengumuman/js_pengumuman.html' %}
+
+{% endblock%}
+{% block itemTitle %}
+<th>No</th>
+<th>Judul</th>
+<th>Jenis</th>
+<th>Tanggal</th>
+<th>Waktu</th>
+<th>Lokasi</th>
+<th>Pengumuman</th>
+<th>Petugas</th>
+<th>Tanggal Dibuat</th>
+<th>Tanggal Diubah</th>
+<th>Opsi</th>
+{% endblock%}
+{% block itemData %}
+<td>{{ forloop.counter }}</td>
+<td>{{i.judul}}</td>
+<td>{{i.jenis}}</td>
+<td>{{i.tanggal}}</td>
+<td>{{i.waktu}}</td>
+<td>{{i.tempat}}</td>
+<td>{{i.pengumuman}}</td>
+<td>{{i.petugas.first_name}} {{i.petugas.last_name}}</td>
+<td>{{i.created_at}}</td>
+<td>{{i.updated_at}}</td>
+<!-- Edit pengumuman Modal -->
+{% include 'office/informasi/pengumuman/edit_pengumuman.html' %}
+<!-- Delete pengumuman Modal -->
+{% include 'office/informasi/pengumuman/delete_pengumuman.html' %}
+{% endblock%}
+{% block update %}
+  <button type="button" class="btn btn-warning"data-toggle="modal" data-target="#updateModal{{i.id}}" onclick="openEditModal('{{ i.id }}','{{i.judul}}','{{i.tanggal}}','{{i.waktu}}','{{i.tempat}}','{{i.jenis_id}}','{{i.pengumuman|escapejs}}','{{i.petugas_id }}')">
+      <i class="fas fa-pencil-alt"></i>
+  </button>
+{% endblock%}
+
+{% block delete %}
+<button type="button" class="btn btn-danger " data-toggle="modal" data-target="#deleteModal{{i.id}}">
+    <i class="fas fa-trash-alt"></i>
+</button>
+{% endblock%}

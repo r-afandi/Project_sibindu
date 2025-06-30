@@ -1,0 +1,64 @@
+{% extends 'layouts/table.html' %}
+{% load static %}
+
+<!-- Title -->
+{% block tableTitle %} User {% endblock%}
+
+<!-- Modals -->
+{% block itemCRUD %}
+    <a class="btn btn-info" data-toggle="modal" data-target="#addModal">
+        <i class="fas fa-fw fa-plus"></i>
+        <span>Tambah Data  </span>
+    </a>
+{% include 'office/user/add_user.html' %}
+{% include 'office/user/js_user.html' %}
+{% endblock %}
+
+<!-- Table Header -->
+{% block itemTitle %}
+<th>No</th>
+<th>Nama Depan</th>
+<th>Nama Belakang</th>
+<th>Email</th>
+<th>Username</th>
+<th>Aktor</th>
+<th>Status</th>
+<th>Admin</th>
+<th>Terakhir Login</th>
+<th>Opsi</th>
+{% endblock %}
+
+<!-- Table Data -->
+{% block itemData %}
+<td>{{ forloop.counter }}</td>
+<td>{{ i.first_name }}</td>
+<td>{{ i.last_name }}</td>
+<td>{{ i.email }}</td>
+<td>{{ i.username }}</td>
+<td>
+    {% for group in i.groups.all %}
+        {{ group.name }}{% if not forloop.last %}, {% endif %}
+    {% endfor %}
+</td>
+<td>{{ i.is_active }}</td>
+<td>{{ i.is_staff }}</td>
+<td>{{ i.last_login }}</td>
+{% include 'office/user/edit_user.html' %}
+{% include 'office/user/delete_user.html' %}
+{% endblock %}
+
+<!-- Update Button -->
+{% block update %}
+<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#updateModal{{ i.id }}" onclick="openEditModal('{{ i.id }}', '{{ i.first_name }}', '{{ i.last_name }}', '{{ i.email }}', '{{ i.username }}', '{{ i.password }}', '{{ i.is_active }}', '{{ i.is_staff }}',[{% for j in i.groups.all %}'{{ j.id }}'{% if not forloop.last %}, {% endif %}{% endfor %}])">
+    <i class="fas fa-pencil-alt"></i>
+</button>
+
+{% endblock %}
+
+<!-- Delete Button -->
+{% block delete %}
+<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal{{ i.id }}">
+    <i class="fas fa-trash-alt"></i>
+</button>
+
+{% endblock %}

@@ -1,0 +1,13 @@
+
+{% extends 'layouts/modals/add.html' %}
+{% load crispy_forms_tags %}
+{% block label %}
+Tambah Profil
+{% endblock %}
+{% block action %}
+{% url 'profil:add_profil' %}
+{% endblock %}
+{% block form %}
+{{form | crispy}}
+{% endblock %}
+

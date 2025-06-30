@@ -1,0 +1,43 @@
+<script>
+  // update    
+  function openEditModal(id, {% for list in nama_tabel %} {{ list }}, {% endfor %}) {
+    var modalId = "#updateModal" + id;
+    var fields = [
+      {% for gejala in nama_tabel %} '{{ gejala }}', {% endfor %}
+    ]; // Nama-nama field yang akan diisi
+    var data = [{% for list in nama_tabel %} {{ list }}, {% endfor %}]
+    
+    // Mengisi nilai input berdasarkan data yang diterima
+    for (var i = 0; i < fields.length; i++) {
+      var fieldName = fields[i];
+      var fieldValue = data[i];
+      $(modalId).find("#id_" + fieldName).val(fieldValue);
+    }
+
+    // Menambahkan event listener untuk menghitung IMT saat tb atau bb diubah
+    $(modalId).find("#id_tb, #id_bb").off('input').on('input', function() {
+      calculateIMT(modalId);
+    });
+
+    // Menambahkan event listener untuk menghitung IMT saat tombol "Simpan" diklik
+    $(modalId).find(".save-button").off('click').on('click', function() {
+      calculateIMT(modalId);
+    });
+  }
+
+  // Fungsi untuk menghitung IMT
+  function calculateIMT(modalId) {
+    var tb = parseFloat($(modalId).find("#id_tb").val()); // Tinggi badan dalam cm
+    var bb = parseFloat($(modalId).find("#id_bb").val()); // Berat badan dalam kg
+    var meter = tb / 100; // Konversi tinggi badan ke meter
+    var imt = 0;
+
+    if (tb > 0 && bb > 0) {
+      imt = (bb / (meter * meter)).toFixed(1); // Perhitungan IMT
+      $(modalId).find("#id_imt").val(imt); // Set nilai IMT pada input
+      console.log('IMT berhasil dihitung:', imt); // Debug: menampilkan hasil IMT
+    } else {
+      console.log('Nilai TB atau BB tidak valid:', tb, bb); // Debug jika TB atau BB tidak valid
+    }
+  }
+</script>

@@ -1,0 +1,51 @@
+{% extends 'layouts/table_dashboard.html' %}
+<!--Title-->
+{% block tableTitle %}
+Data Suspek
+{% endblock%}
+{% block itemCRUD %}
+{% endblock%}
+{% block itemTitle %}
+<tr style="text-align: center;">
+    <th rowspan="2">No</th>
+    <th rowspan="2">Alamat</th>
+    <th rowspan="2">Umur</th>
+    <th colspan="4">Laki-laki</th>
+    <th colspan="4">Perempuan</th>
+    <th colspan="4">Total</th>
+</tr>
+<tr>
+    <!--KOde kurang tepat, yang penting jadi !!! -->
+    {% for nama in nama_tabel %}
+    <th>{{nama.diagnosa}}</th>
+    {% endfor %}
+    <th>Jumlah</th>
+    {% for nama in nama_tabel %}
+    <th>{{nama.diagnosa}}</th>
+    {% endfor %}
+    <th>Jumlah</th>
+    {% for nama in nama_tabel %}
+    <th>{{nama.diagnosa}}</th>
+    {% endfor %}
+    <th>Total</th>
+    {% endblock%}
+    {% block itemData %}
+    <td>{{forloop.counter}}</td>
+    <td>{{i.alamat}}</td>
+    <td>{{ i.umur}}</td>
+
+    <td>{{hasil.0.hasil_diagnosa }}</td>
+    <td>{{hasil.1.hasil_diagnosa }}</td>
+    <td>{{hasil.2.hasil_diagnosa }}</td>
+    <td>{{hasil.1.jumlah }}</td>
+    <td>{{hasil.3.hasil_diagnosa }}</td>
+    <td>{{hasil.4.hasil_diagnosa }}</td>
+    <td>{{hasil.5.hasil_diagnosa }}</td>
+    <td>{{hasil.2.jumlah}}</td>
+    <td>{{hasil.0.total}}</td>
+    <td>{{hasil.1.total}}</td>
+    <td>{{hasil.2.total}}</td>
+    <td>{{hasil.jumTotal}}</td>
+
+    {% endblock%}
+    <!--Modals-->

@@ -1,0 +1,48 @@
+{% load static %}
+{% block content %}
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Data Aset</h3>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        <!-- Button trigger modal -->
+
+        <table id="t_data_sdp" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Kode</th>
+                    <th>Nama</th>
+                    <th>Kondisi</th>
+                    <th>Tanggal Kedaluarsa</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for i in sdp_data %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td><a href="{% url 'sdp:detail_data_sdp' i.obj.kode %}">{{ i.obj.kode }}</a></td>
+                    <td>{{ i.obj.nama }}</td>
+                    <td>
+                        <span class="badge bg-{{ i.bg }}">{{ i.name }}</span>
+                    </td>
+                    <td>
+                        {% if i.obj.kadaluarsa %}
+                        {{ i.obj.kadaluarsa }}
+                        {% else %}
+                        -
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <!-- /.card-body -->
+</div>
+<!--Modals-->
+
+{% endblock%}

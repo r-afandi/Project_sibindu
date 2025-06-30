@@ -1,0 +1,97 @@
+{% extends 'layouts/table_download.html' %}
+{% load static %}
+<!--Title-->
+{% block tableTitle %} Aset {% endblock%}
+{% block itemCRUD %}
+<!-- Add artikel Modal -->
+{% if 4 in group_id and not is_detail %}
+    <a class="btn btn-info" data-toggle="modal" data-target="#addModal" onclick="openAddModal('{{ user.id }}')">
+        <i class="fas fa-fw fa-plus"></i>
+        <span>Tambah Data</span>
+    </a>
+{% endif %}
+{% include 'office/laporan/laporan_sdp/add_sdp.html' %}
+{% include 'office/laporan/laporan_sdp/js_sdp.html' %}
+{% endblock%}
+{% block itemTitle %}
+<th>No</th>
+<th>Kode</th>
+<th>Tanggal</th>
+<th>Nama</th>
+<th>Jenis</th>
+<th>Masuk</th>
+<th>Keluar</th>
+<th>Bukti</th>
+<th>Keperluan</th>
+<th>Tanggal Kadaluarsa</th>
+<th>Kadaluarsa</th>
+<th>Kondisi</th>
+<th>Status</th>
+<th>Informasi</th>
+<th>Petugas</th>
+<th>Validator</th>
+<th>Tanggal Dibuat</th>
+<th>Tanggal Diubah</th>
+<th>Opsi</th>
+{% endblock%}
+{% block itemData %}
+<td>{{ forloop.counter }}</td>
+<td>{{i.obj.kode}}</td>
+<td>{{i.obj.tanggal}}</td>
+<td>{{i.obj.nama}}</td>
+<td>{{i.obj.jenis.nama}}</td>
+<td>{{i.obj.masuk}}</td>
+<td>{{i.obj.keluar}}</td>
+<td>
+    {% if i.obj.bukti %}
+        {% if ".jpg" in i.obj.bukti|lower or ".jpeg" in i.obj.bukti|lower or ".png" in i.obj.bukti|lower or ".gif" in i.obj.bukti|lower %}
+            <img src="{{ i.obj.bukti.url }}" width="100" alt="{{ i.obj.bukti }}">
+        {% else %}
+            <a href="{{ i.obj.bukti.url }}" class="btn btn-primary" target="_blank"><i class="fas fa-print"></i></a>
+        {% endif %}
+    {% endif %}
+</td>
+<td>{{i.obj.keperluan}}</td>
+<td>{{i.obj.kadaluarsa}}</td>
+<td>
+    <span class="badge bg-{{ i.bg }}">{{ i.name }}</span>
+</td>
+<td>
+    <span class="badge bg-{{i.obj.kondisi.badge}}">{{i.obj.kondisi.nama}}</span>   
+</td>
+<td>{% if i.obj.validasi_id == 1 %}
+    <span class="badge bg-success">Tervalidasi</span>    
+    {% elif i.obj.validasi_id == 2 %}
+    <span class="badge bg-danger">Tidak Tervalidasi</span>    
+    {% else %}
+    <span class="badge bg-warning">Belum Tervalidasi</span>    
+    {% endif%}
+</td>
+
+<td>{{i.obj.info}}</td>
+<td>{{ i.obj.petugas.first_name}} {{ i.obj.petugas.last_name}} </td>
+<td>{{ i.obj.validator.first_name}} {{ i.obj.validator.last_name}} </td>
+<td>{{i.obj.created_at}}</td>
+<td>{{i.obj.updated_at}}</td>
+<!-- Edit sdp Modal -->
+{% include 'office/laporan/laporan_sdp/edit_sdp.html' %}
+<!-- Delete sdp Modal -->
+{% include 'office/laporan/laporan_sdp/delete_sdp.html' %}
+
+{% endblock%}
+{% block update %}
+  <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#updateModal{{i.obj.id}}" onclick="openEditModal('{{i.obj.id}}','{{i.obj.kode}}','{{i.obj.tanggal}}','{{i.obj.nama}}','{{i.obj.jenis_id}}','{{i.obj.masuk}}','{{i.obj.keluar}}','{{i.obj.bukti}}','{{i.obj.upload}}','{{i.obj.keperluan}}','{{i.obj.kondisi_id}}','{{i.obj.kadaluarsa}}','{{i.obj.validasi_id}}','{{i.obj.info}}','{{i.obj.petugas_id}}','{{i.obj.validator_id}}')">
+      <i class="fas fa-pencil-alt"></i>
+  </button>
+{% endblock%}
+
+{% block delete %}
+{% if 4 in group_id %}
+<button type="button" class="btn btn-danger " data-toggle="modal" data-target="#deleteModal{{i.obj.id}}">
+    <i class="fas fa-trash-alt"></i>
+</button>
+{% endif %}
+{% endblock%}
+{% block JS %}
+
+{% endblock%}

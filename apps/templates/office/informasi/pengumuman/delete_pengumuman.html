@@ -1,0 +1,10 @@
+
+{% extends 'layouts/modals/delete.html' %}
+{% block label %}
+Delete Pengumuman
+{% endblock %}
+{% block action %}
+{% url 'pengumuman:delete_pengumuman' i.id %}
+{% endblock %}
+
+

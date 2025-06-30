@@ -1,0 +1,37 @@
+<script>
+  // Update Modal
+  function initializeSelect2ForEdit(modalId) {
+    const updateGroupsElement = $(modalId).find('#id_groups'); // Perbaiki selector
+    $(updateGroupsElement).select2({
+      theme: 'bootstrap4'
+    });
+  }
+
+  // Rest of your script
+
+  // Function to open add modal
+  function openAddModal(id) {
+    var modalId = "#addModal";
+    $(modalId).find("#id_petugas").val(id);
+    //initializeSelect2ForAdd();
+  }
+
+  // Function to open edit modal
+  function openEditModal(id, first_name, last_name, email, username, password, is_active, is_staff, aktor) {
+    var modalId = "#updateModal" + id;
+    $(modalId).find("#id_first_name").val(first_name);
+    $(modalId).find("#id_last_name").val(last_name);
+    $(modalId).find("#id_email").val(email);
+    $(modalId).find("#id_username").val(username);
+    $(modalId).find("#id_password").val(password);
+    $(modalId).find("#id_groups").val(aktor);
+    
+    // Gunakan prop() untuk checkbox
+    $(modalId).find("#id_is_active").prop('checked', is_active === 'True' || is_active === true);
+    $(modalId).find("#id_is_staff").prop('checked', is_staff === 'True' || is_staff === true);
+
+    
+    initializeSelect2ForEdit(modalId); // Inisialisasi Select2
+}
+
+</script>

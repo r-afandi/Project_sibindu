@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cetak Data Suspek</title>
+    <link rel="stylesheet" href="{% static 'css/print.css' %}">
+    <style>
+        @media print {
+            .no-print { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Data Suspek Tanggal: {{ tanggal }}</h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Nama Suspek</th>
+                    <th>Tanggal</th>
+                    <th>Gender</th>
+                    <th>Diagnosa</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for suspek in suspek_list %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ suspek.nama }}</td>
+                        <td>{{ suspek.tanggal }}</td>
+                        <td>{{ suspek.gender|stringformat:"s" }}</td>
+                        <td>{{ suspek.diagnosa }}</td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="5">Tidak ada data suspek untuk tanggal ini.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <button class="no-print" onclick="window.print()">Cetak Halaman</button>
+        <a href="{% url 'laporan_data_suspek' %}" class="btn no-print">Kembali</a>
+    </div>
+</body>
+</html>

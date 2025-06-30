@@ -1,0 +1,58 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">{% block tableTitle %}{% endblock%}</h3>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        <!-- Button trigger modal -->
+        <div type="button" data-toggle="modal" data-target="#addModal" {% block addModal %} {% endblock%}>
+            <a class="btn btn-info">
+                <i class="fas fa-fw fa-plus"></i>
+                <span>Tambah Data</span>
+            </a>
+        </div>
+
+        <table id="example2" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    {% block itemTitle %}
+        
+                    {% endblock%}
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for i in data %}
+                
+                <tr>
+                    {% block itemData%}
+                    {% endblock%}
+                    <td>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-warning" data-toggle="modal" id="update"
+                                data-target="#updateModal{{i.id}}" {% block updateModal %} {% endblock%}>
+                                <i class="fas fa-pencil-alt"></i>
+                            </button> 
+                            <button type="button" class="btn btn-danger " data-toggle="modal"
+                                data-target="#deleteModal{{i.id}}">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </div>
+
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <!-- /.card-body -->
+</div>
+<!--Modals-->
+{% block itemCRUD %}
+{% endblock%}
+{% block JS %}
+{% endblock%}
+{% endblock%}

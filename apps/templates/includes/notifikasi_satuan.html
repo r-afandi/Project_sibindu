@@ -1,0 +1,50 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block content %}
+
+{% if notifications %}
+    <div id="alert-container"></div>
+    <ul>
+        {% for notification in notifications %}
+            <li>{{ notification.nama }} - {{ notification.verb }}</li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No notifications available.</p>
+{% endif %}
+
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script>
+  function showNotificationAlert(type, message) {
+    console.log("Document Loaded");
+      const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer)
+              toast.addEventListener('mouseleave', Swal.resumeTimer)
+          }
+      });
+
+      Toast.fire({
+          icon: type,
+          title: message
+      });
+  }
+
+  // Example to trigger alert when notification is added
+  document.addEventListener("DOMContentLoaded", function() {
+      {% if request.method == 'POST' %}
+      console.log("Document");
+          showNotificationAlert('success', 'Notifikasi berhasil ditambahkan');
+      {% elif request.method == 'DELETE' %}
+      console.log("Loaded");
+          showNotificationAlert('warning', 'Notifikasi berhasil dihapus');
+      {% endif %}
+  });
+</script>
+{% endblock%}

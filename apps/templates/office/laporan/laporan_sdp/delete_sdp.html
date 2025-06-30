@@ -1,0 +1,10 @@
+
+{% extends 'layouts/modals_obj/delete.html' %}
+{% block label %}
+Delete Sumber Daya
+{% endblock %}
+{% block action %}
+{% url 'sdp:delete_sdp' i.obj.id %}
+{% endblock %}
+
+

@@ -1,0 +1,10 @@
+
+{% extends 'layouts/modals/delete.html' %}
+{% block label %}
+Delete kegiatan
+{% endblock %}
+{% block action %}
+{% url 'kegiatan:delete_kegiatan' i.id %}
+{% endblock %}
+
+

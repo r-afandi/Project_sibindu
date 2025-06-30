@@ -1,0 +1,10 @@
+
+{% extends 'layouts/modals/delete.html' %}
+{% block label %}
+Delete Wilayah Kerja
+{% endblock %}
+{% block action %}
+{% url 'user:delete_wilayah_kerja' i.id %}
+{% endblock %}
+
+

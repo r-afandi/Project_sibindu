@@ -1,0 +1,32 @@
+{% extends 'layouts/table_diagnosa.html' %}
+<!--Title-->
+{% block tableTitle %}
+Penanganan
+{% endblock%}
+
+{% block itemTitle %}
+<th>No</th>
+<th>NIK</th>
+<th>Nama</th>
+<th>Alamat</th>
+<th>Hasil Diagnosa Dalam</th>
+<th>Petugas</th>
+<th>Opsi</th>
+{% endblock%}
+
+{% block itemData %}
+<td>{{ forloop.counter }}</td>
+<td>{{i.nik}}</td>
+<td>{{i.nama}}</td>
+<td>{{i.alamat}}</td>
+<td>{{i.diagnosa.diagnosa}}</td>
+<td>{{i.petugas}}</td>
+{% endblock%}
+{% block update %}
+<a href="{% url 'diagnosis:penanganan:edit_penanganan' i.id %}" style="color: rgb(255, 255, 255);">
+  <button type="button" class="btn btn-primary">
+      <i class="fas fa-user"></i>
+  </button>
+</a>
+  
+{% endblock%}

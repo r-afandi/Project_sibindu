@@ -1,0 +1,29 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+{% block header %}
+
+<head>
+
+  <!-- css -->
+  {% include "includes/header.html" %}
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  {% endblock %}
+  <section class="content">
+    {% block content %}
+
+    
+    {% endblock %}
+  </section>
+
+
+  <!-- /.content -->
+
+  <!-- /.content-wrapper -->
+  {% block footer %}
+  {% include "includes/scripts.html" %}
+  </body>
+  {% endblock %}
+
+
+</html>

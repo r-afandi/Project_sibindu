@@ -1,0 +1,80 @@
+{% extends 'layouts/table.html' %}
+
+{% load static %}
+<!--Title-->
+{% block tableTitle %} Artikel {% endblock%}
+{% block itemCRUD %}
+<!-- Add artikel Modal -->
+{% include 'office/informasi/artikel/js_artikel.html' %}
+{% if 4 in group_id %}
+<a class="btn btn-info" id="#addModal" onclick="openAddModal('{{user.id}}')" href="{% url 'artikel:add_artikel'%}">
+    <i class="fas fa-fw fa-plus"></i>
+    <span>Tambah Data </span>
+</a>
+{% endif %}
+{% endblock%}
+{% block itemTitle %}
+<th>No</th>
+<th>Gambar</th>
+<th>Judul</th>
+<th>Tanggal</th>
+<th>Status</th>
+<th>Informasi</th>
+<th>Petugas</th>
+<th>Validator</th>
+<th>Tanggal Dibuat</th>
+<th>Tanggal Diubah</th>
+<th>Opsi</th>
+{% endblock%}
+{% block itemData %}
+<td>{{ forloop.counter }}</td>
+<td>
+    {%if i.gambar%}
+    <img src="{{i.gambar.url}}" width="100" alt="{{i.gambar}}">
+    {% endif%}
+</td>
+<td><a href="{% url 'artikel:detail_artikel' i.id %}">{{i.judul}}</a></td>
+<td>{{i.tanggal}}</td>
+<td>{% if i.validasi_id == 1 %}
+    <span class="badge bg-success">Tervalidasi</span>
+    {% elif i.validasi_id == 2 %}
+    <span class="badge bg-danger">Tidak Tervalidasi</span>
+    {% else %}
+    <span class="badge bg-warning">Belum Tervalidasi</span>
+    {% endif%}
+</td>
+<td>{{i.info}}</td>
+<td>{{ i.petugas.first_name}} {{ i.petugas.last_name}} </td>
+<td>{{ i.validator.first_name}} {{ i.validator.last_name}} </td>
+<td>{{i.created_at}}</td>
+<td>{{i.updated_at}}</td>
+
+<!-- Delete artikel Modal -->
+{% include 'office/informasi/artikel/validasi_artikel.html' %}
+{% include 'office/informasi/artikel/delete_artikel.html' %}
+
+
+{% endblock%}
+{% block update %}
+{% if 4 in group_id %}
+<div type="button"  data-target="#updateModal{{i.id}}" onclick="openEditModal('{{ i.id }}','{{i.judul}}','{{i.tanggal}}','{{i.artikel|escapejs}}','{{i.upload}}','{{i.validasi_id}}','{{i.info}}','{{i.petugas_id}}','{{ user.id }}')">
+    <a class="btn btn-warning" href="{% url 'artikel:edit_artikel' i.id %}">
+        <i class="fas fa-pencil-alt"></i>
+    </a>
+</div>
+{% else %}
+<button type="button" class="btn btn-warning"data-toggle="modal" data-target="#updateModal{{i.id}}" onclick="openEditModal('{{ i.id }}','{{i.judul}}','{{i.tanggal}}','{{i.artikel|escapejs}}','{{i.upload}}','{{i.validasi_id}}','{{i.info}}','{{i.petugas_id}}','{{ user.id }}')">
+    <i class="fas fa-pencil-alt"></i>
+</button>
+{% endif %}
+{% endblock%}
+{% block delete %}
+{% if 4 in group_id %}
+<button type="button" class="btn btn-danger " data-toggle="modal" data-target="#deleteModal{{i.id}}">
+    <i class="fas fa-trash-alt"></i>
+</button>
+{% endif %}
+{% endblock%}
+{% block JS %}
+
+{% endblock%}

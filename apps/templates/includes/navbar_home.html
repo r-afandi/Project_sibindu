@@ -1,0 +1,87 @@
+{% load static %}
+<!-- Top Bar Start -->
+<div class="top-bar">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                {% for item in about %}
+                <div class="tb-contact">
+                    <p><i class="fas fa-envelope"></i>{{item.email}}</p>
+                    <p><i class="fas fa-phone-alt"></i>{{item.telp}} </p>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="col-md-6">
+                <div class="tb-menu">
+                  
+                    <a href="{% url 'sibindu:login' %}">
+                        <i class="fas fa-sign-in-alt"></i>  <span>Login</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Top Bar Start -->
+
+<!-- Brand Start -->
+<div class="brand">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-8 col-md-4">
+                <div class="b-logo">
+                    <a href="">
+                        <img src="{% static 'ico/sibindu.png' %}" alt="AdminLTE Logo" width="200">
+                    </a>
+                </div>
+            </div>
+            <!-- Di dalam template Anda -->
+            <div class="col-lg-4 col-md-8">
+                <div class="b-search">
+                    <form action="{% url 'sibindu:search_content' %}" method="get">
+                        <input type="text" name="q" placeholder="Search">
+                        <button type="submit"><i class="fa fa-search"></i></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Brand End -->
+
+<!-- Nav Bar Start -->
+<div class="nav-bar">
+    <div class="container">
+        <nav class="navbar navbar-expand-md bg-light navbar-light">
+            <a href="#" class="navbar-brand">MENU</a>
+            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+                <div class="navbar-nav mr-auto">
+                    {% for item in menu_home %}
+                    <li class="nav-item">
+                        <a href="{% url item.link %}" class="nav-link">
+                            <p class="brand-text">{{ item.nama }}</p>
+                        </a>
+                    </li>
+                    {% endfor %}
+                </div>
+                {% for item in about %}
+                <div class="social ml-auto">
+                    {% for list in item.sosmed %}
+                    {% if forloop.counter0|divisibleby:2 %}
+                    <a href="{{list}}" target="_blank">
+                        {% else %}
+                        <i class="fa-brands fa-{{list}}"></i>
+                    </a>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                {% endfor %}
+            </div>
+        </nav>
+    </div>
+</div>
+<!-- Nav Bar End -->

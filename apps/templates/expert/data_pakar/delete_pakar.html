@@ -1,0 +1,10 @@
+
+{% extends 'layouts/modals/delete.html' %}
+{% block label %}
+Delete pakar
+{% endblock %}
+{% block action %}
+{% url 'data_pakar:delete_pakar' i.id %}
+{% endblock %}
+
+

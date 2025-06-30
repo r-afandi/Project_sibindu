@@ -1,0 +1,80 @@
+{% load static %}
+<!-- Main Sidebar Container -->
+<style>
+  /* Mengatur tampilan utama dari teks username dan grup */
+.widget-user-username {
+    display: flex;            /* Menggunakan flexbox untuk menata item */
+    flex-wrap: wrap;          /* Membungkus item ke baris baru jika tidak cukup ruang */
+    font-weight: bold;        /* Memberikan gaya tebal */
+    font-size: 100%;          /* Ukuran font 100% */
+    line-height: 1.5;         /* Mengatur jarak antar baris */
+    margin-bottom: 10px;      /* Menambahkan jarak di bawah teks */
+}
+
+/* Mengatur setiap grup menjadi elemen yang rapi */
+.widget-user-username span {
+    display: inline-block;    /* Setiap grup menjadi blok inline */
+    margin-right: 5px;        /* Menambahkan jarak antar grup */
+    white-space: nowrap;      /* Mencegah pemisahan grup di tengah-tengah kata */
+}
+
+/* Untuk memisahkan grup dengan tanda '|' */
+.widget-user-username .separator {
+    margin-right: 5px;        /* Jarak sedikit antara '|' dan grup */
+}
+
+</style>
+<aside class="main-sidebar sidebar-dark-light elevation-4" style="background-color: #A6192E">
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <!-- Brand Logo -->
+    <div class="user-panel mt-3 pb-3 mb-3 d-flex justify-content-center">
+  
+        <a href="" class="d-block">
+          <img src="{% static 'ico/sibindu-white.min.png' %}" alt="SIBINDU"
+            class="brand-image img-circle elevation-2" >
+        </a>
+
+    </div>
+
+    <!-- Sidebar user panel (optional) -->
+    <div class="user-panel mt-3 pb-3 mb-3 d-flex justify-content-center">
+      <div class="info" >
+        <a href="{% url 'user:profil'%}" class="d-block" style="align-content: center;">
+          <h2 class="widget-user-username" style="font-weight: bold ;font-size: 100%;">{{ user.first_name}} {{ user.last_name}} </h2>
+          <h4 class="widget-user-username">
+            {% for i in groups %}
+                <span>{{ i.name }}</span>
+                {% if not forloop.last %}
+                    <span class="separator">|</span>  <!-- Tanda pemisah antara grup -->
+                {% endif %}
+            {% endfor %}
+        </h4>
+        
+        </a>
+      </div>
+    </div>
+    <!-- Sidebar Menu -->
+    <nav class="mt-2">
+      <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+        <!-- Add icons to the links using the .nav-icon class
+               with font-awesome or any other icon font library -->
+
+                {% for item in menu %}
+                <li class="nav-item">
+                  <a href="{% url item.link %}" class="nav-link">
+                    <i class="nav-icon fas {{ item.icon }}"></i>
+                    <p>{{ item.nama }}</p>
+                  </a>
+
+                </li>
+                {% endfor %}
+
+      </ul>
+    </nav>
+    <!-- /.sidebar-menu -->
+  </div>  
+  <!-- /.sidebar -->
+</aside>
+
