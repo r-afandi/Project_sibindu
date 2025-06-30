@@ -2,7 +2,7 @@
 
 **SIBINDU** adalah sistem informasi berbasis web yang dirancang untuk mendukung kegiatan Pos Pembinaan Terpadu Penyakit Tidak Menular (POSBINDU PTM). Aplikasi ini juga dilengkapi dengan fitur **sistem pakar diagnosis dini diabetes** berbasis metode **Naive Bayes** dan **Forward Chaining**.
 
-Website demo: Menyusul
+Website demo: **Menyusul**
 
 Login demo:  
 
